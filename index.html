@@ -1,0 +1,775 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>你適合當哪一種遮瑕師？｜奶茶美肌</title>
+<meta name="description" content="11 個問題，看看你是哪一種遮瑕師，以及現在最適合你的起步節奏。約 3 分鐘，不用註冊。">
+<meta property="og:title" content="你適合當哪一種遮瑕師？">
+<meta property="og:description" content="這一行有四種完全不同的成功方式。11 個問題，看看你是哪一種。">
+<meta property="og:type" content="website">
+
+<!-- ═══════════════════════════════════════════════════════════
+     ① 部署設定 — 上線前只要改這一段
+     ═══════════════════════════════════════════════════════════ -->
+<script>
+window.CONFIG = {
+  BOOKING_URL_A : "https://example.com/apply",     // 沒填過申請表 → 申請表／預約頁
+  BOOKING_URL_B : "https://example.com/booking",   // 填過沒預約 → 直接選時段
+  WEBHOOK_URL   : "",                              // 選填：結果 POST 給 Setter
+  LIFF_ID       : ""                               // 選填：填了會一起送 LINE userId
+};
+</script>
+
+<style>
+:root{
+  --bg:hsl(38 42% 96%); --fg:hsl(156 28% 13%); --card:hsl(40 50% 99%);
+  --primary:hsl(156 35% 21%); --onp:hsl(38 42% 96%); --secondary:hsl(32 28% 88%);
+  --muted:hsl(35 24% 91%); --mfg:hsl(156 10% 40%); --accent:hsl(19 74% 68%);
+  --acc-deep:hsl(19 62% 40%); --line:hsl(35 20% 82%); --r:12px;
+  --disp:'Noto Serif TC','Songti TC','PingFang TC','Microsoft JhengHei',sans-serif;
+  --body:'PingFang TC','Noto Sans TC','Microsoft JhengHei',-apple-system,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);
+  font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:var(--disp);margin:0;font-weight:700;text-wrap:balance}
+p{margin:0}
+/* height:auto 必須有，否則 <img> 的 height 屬性會覆蓋掉等比縮放，圖片被拉長 */
+img{display:block;max-width:100%;height:auto}
+ul,ol{margin:0;padding:0;list-style:none}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 40px}
+.band{padding:74px 0}
+.eyebrow{font-size:11.5px;letter-spacing:.16em;font-weight:700;color:var(--acc-deep);margin-bottom:12px}
+.sec-h{font-size:30px;line-height:1.4}
+.lede{color:var(--mfg);font-size:15px;line-height:1.85;margin-top:12px;max-width:44em}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  height:54px;padding:0 28px;border:none;border-radius:var(--r);
+  background:var(--primary);color:var(--onp);
+  font-size:15.5px;font-weight:700;cursor:pointer;
+  box-shadow:0 14px 30px -16px hsl(156 35% 21% / .55);
+  transition:transform .15s ease,box-shadow .15s ease;
+}
+.btn:hover{transform:translateY(-1px);box-shadow:0 18px 36px -16px hsl(156 35% 21% / .6)}
+.btn:active{transform:translateY(0)}
+.btn:focus-visible{outline:2px solid var(--acc-deep);outline-offset:3px}
+.btn.ghost{background:transparent;color:var(--mfg);box-shadow:none;height:44px;font-weight:600;font-size:14px}
+
+/* ── header ── */
+header{position:sticky;top:0;z-index:30;background:hsl(38 42% 96% / .9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.hd{display:flex;align-items:center;justify-content:space-between;height:62px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15.5px}
+.logo i{width:30px;height:30px;border-radius:50%;background:var(--primary);color:var(--onp);display:grid;place-items:center;font-size:13px;font-style:normal}
+.hd-cta{font-size:13.5px;font-weight:600;background:none;border:none;cursor:pointer;color:var(--fg);padding:10px 4px;min-height:44px}
+.hd-cta:hover{color:var(--acc-deep)}
+.qbar{height:3px;background:var(--muted);display:none}
+.qbar>i{display:block;height:100%;background:var(--accent);width:0;transition:width .35s cubic-bezier(.65,0,.35,1)}
+body.quizmode .qbar{display:block}
+body.quizmode .hd-cta{display:none}
+.qcount{font-size:12.5px;color:var(--mfg);font-variant-numeric:tabular-nums;display:none}
+body.quizmode .qcount{display:block}
+
+/* ── hero ── */
+.hero{background:radial-gradient(circle at 80% 16%, hsl(19 74% 68% / .26), transparent 34%),linear-gradient(135deg,hsl(38 42% 96%),hsl(35 24% 91%));padding:78px 0 84px}
+.hero-grid{display:grid;grid-template-columns:1.12fr .88fr;gap:52px;align-items:center}
+h1{font-size:52px;line-height:1.26}
+.hero .lede{font-size:16.5px;margin-top:20px}
+.cta-row{display:flex;align-items:center;gap:18px;margin-top:32px;flex-wrap:wrap}
+.trust{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--mfg)}
+
+.compass{background:var(--primary);color:var(--onp);border-radius:20px;padding:28px;position:relative;box-shadow:0 30px 70px -32px hsl(156 35% 21% / .5)}
+.compass .tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.05em;padding:5px 12px;border-radius:999px;margin-bottom:16px;background:hsl(19 74% 68% / .26);color:hsl(19 74% 84%);border:1px solid hsl(19 74% 68% / .5)}
+.compass .lbl{font-size:11.5px;letter-spacing:.13em;opacity:.6;margin-bottom:6px}
+.compass h3{font-size:21px;line-height:1.4;margin-bottom:22px}
+.ctype{display:flex;align-items:center;gap:11px;padding:11px 0;border-top:1px solid hsl(38 42% 96% / .14);font-size:14px}
+.ctype:first-of-type{border-top:none}
+.ctype i{width:7px;height:7px;border-radius:50%;background:var(--accent);flex-shrink:0}
+.compass-foot{margin-top:18px;padding-top:15px;border-top:1px solid hsl(38 42% 96% / .16);font-size:12.5px;opacity:.72;line-height:1.65}
+
+/* ── persona ── */
+.persona{background:var(--secondary)}
+.p-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:30px}
+.p-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px 19px;display:flex;flex-direction:column;gap:13px}
+.p-card svg{color:var(--acc-deep)}
+.p-card span{font-size:14.5px;line-height:1.65}
+.p-foot{text-align:center;margin-top:30px;font-size:17px;font-weight:600}
+
+/* ── concerns ── */
+.c-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-top:32px}
+.c-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:24px;display:flex;flex-direction:column;gap:10px}
+.c-card.feat{grid-column:span 2;background:var(--primary);color:var(--onp);border-color:var(--primary)}
+.c-card h3{font-size:17.5px;line-height:1.45}
+.c-card.feat h3{font-size:21px}
+.c-card p{font-size:14px;line-height:1.78;color:var(--mfg)}
+.c-card.feat p{color:hsl(38 42% 96% / .84);font-size:14.5px}
+.c-card svg{color:var(--acc-deep)}
+.c-card.feat svg{color:var(--accent)}
+
+/* ── steps ── */
+.steps-band{background:var(--muted)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:32px}
+.step{display:flex;flex-direction:column;gap:9px}
+.step-n{font-size:12.5px;font-weight:800;letter-spacing:.1em;color:var(--acc-deep);font-variant-numeric:tabular-nums}
+.step h3{font-size:17.5px}
+.step p{font-size:14px;color:var(--mfg);line-height:1.75}
+.mid-cta{text-align:center;margin-top:44px}
+
+/* ── stats ── */
+.stats{background:var(--primary);color:var(--onp)}
+.s-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:30px;align-items:center}
+.stat{display:flex;flex-direction:column;gap:7px}
+.stat .num{font-size:38px;font-weight:800;color:var(--accent);line-height:1;font-variant-numeric:tabular-nums}
+.stat.big .num{font-size:66px}
+.stat .lbl{font-size:14px;font-weight:600;opacity:.94}
+.stat .sub{font-size:12.5px;opacity:.58;line-height:1.6}
+.stat.div{border-left:1px solid hsl(38 42% 96% / .18);padding-left:30px}
+
+/* ── instructor ── */
+.inst{background:var(--secondary)}
+.i-grid{display:grid;grid-template-columns:400px 1fr;gap:46px;align-items:center}
+.i-shot{border-radius:18px;overflow:hidden;box-shadow:0 26px 56px -28px hsl(156 35% 21% / .5);background:#2b2f32}
+.inst h2{font-size:36px}
+.role{font-size:14.5px;color:var(--mfg);margin-top:8px}
+.pills{display:flex;flex-wrap:wrap;gap:9px;margin-top:22px}
+.pill{font-size:12.5px;font-weight:600;padding:8px 14px;border-radius:999px;background:hsl(19 74% 68% / .2);color:var(--acc-deep);border:1px solid hsl(19 74% 68% / .45)}
+.proof{display:flex;gap:16px;align-items:center;margin-top:24px;padding:13px;background:var(--card);border:1px solid var(--line);border-radius:var(--r)}
+.proof img{width:210px;border-radius:9px;flex-shrink:0}
+.proof p{font-size:12.5px;color:var(--mfg);line-height:1.75}
+.proof b{color:var(--fg)}
+
+/* ── awards ── */
+.aw-band{background:var(--muted)}
+.aw-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:32px}
+.aw{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column}
+.aw-img{aspect-ratio:4/5;position:relative;background:var(--muted);overflow:hidden}
+.aw-img img{width:100%;height:100%;object-fit:cover}
+.medal{position:absolute;top:11px;left:11px;font-size:11px;font-weight:800;letter-spacing:.04em;padding:5px 11px;border-radius:999px;color:hsl(156 28% 13%);backdrop-filter:blur(6px)}
+.m-g{background:hsl(43 92% 63% / .94)}.m-k{background:hsl(19 84% 70% / .95)}.m-s{background:hsl(210 14% 84% / .95)}
+.aw-b{padding:15px 16px 18px;display:flex;flex-direction:column;gap:4px}
+.aw-b .nm{font-size:15px;font-weight:700;font-family:var(--disp)}
+.aw-b .cat{font-size:12.5px;color:var(--mfg);line-height:1.55}
+.aw-b .tg{font-size:11px;color:var(--acc-deep);font-weight:700;margin-top:5px}
+
+/* ── wall ── */
+.w-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:32px;grid-auto-flow:dense}
+.w-item.wide{grid-column:span 2;aspect-ratio:8/5}
+.w-grid.fold{max-height:none}
+.w-grid.fold .w-item:nth-child(n+13){display:none}
+.w-more{display:block;margin:22px auto 0;padding:12px 26px;border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--ink);font:inherit;font-size:14px;cursor:pointer}
+.w-more:hover{background:var(--muted)}
+.w-item{margin:0;position:relative;border-radius:var(--r);overflow:hidden;aspect-ratio:4/5;background:var(--muted)}
+.w-item img{width:100%;height:100%;object-fit:cover}
+.w-item figcaption{position:absolute;left:0;right:0;bottom:0;padding:26px 13px 11px;font-size:11.5px;color:#fff;background:linear-gradient(transparent,rgba(20,32,27,.74))}
+
+/* ── closing ── */
+.closing{background:var(--secondary);text-align:center}
+.closing h2{font-size:32px;line-height:1.48;max-width:20em;margin:0 auto}
+.closing .lede{margin:16px auto 0;max-width:40em}
+.closing .btn{margin-top:32px}
+.disc{margin-top:34px;font-size:12px;color:var(--mfg);line-height:1.75;max-width:46em;margin:34px auto 0}
+
+footer{border-top:1px solid var(--line);padding:24px 0}
+.foot{display:flex;justify-content:space-between;font-size:12.5px;color:var(--mfg);gap:16px;flex-wrap:wrap}
+
+/* ── sticky mobile CTA ── */
+.sticky{
+  display:none;position:fixed;left:0;right:0;bottom:0;z-index:40;
+  min-height:68px;align-items:center;justify-content:space-between;gap:14px;
+  padding:12px 16px calc(12px + env(safe-area-inset-bottom));
+  background:hsl(40 50% 99% / .94);backdrop-filter:blur(10px);border-top:1px solid var(--line);
+  transform:translateY(100%);opacity:0;pointer-events:none;
+  transition:transform .25s ease,opacity .25s ease;
+}
+body.showsticky .sticky{transform:translateY(0);opacity:1;pointer-events:auto}
+@media (prefers-reduced-motion:reduce){
+  .sticky{transition:none}
+  body.showsticky .sticky{transform:none}
+}
+.sticky small{font-size:12px;color:var(--mfg);line-height:1.35}
+.sticky .btn{height:44px;padding:0 20px;font-size:14px;box-shadow:none}
+body.quizmode .sticky{display:none!important}
+
+/* ═══════════ QUIZ VIEW ═══════════ */
+#quiz{display:none;max-width:560px;margin:0 auto;padding:34px 22px 60px}
+body.quizmode #landing{display:none}
+body.quizmode #quiz{display:block}
+body.quizmode footer{display:none}
+.qnum{font-size:12px;color:var(--mfg);letter-spacing:.06em;margin-bottom:9px}
+.qtext{font-size:23px;line-height:1.5}
+.qhint{font-size:13.5px;color:var(--mfg);margin-top:10px;line-height:1.7}
+.opts{display:flex;flex-direction:column;gap:11px;margin-top:26px}
+.opt{
+  text-align:left;background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:17px 18px;cursor:pointer;font-size:15.5px;line-height:1.65;color:var(--fg);
+  transition:border-color .15s ease,background .12s ease,transform .1s ease;
+}
+.opt:hover{border-color:hsl(19 74% 68% / .7)}
+.opt:active{transform:scale(.995)}
+.opt:focus-visible{outline:2px solid var(--acc-deep);outline-offset:2px}
+.opt.sel{border-color:var(--primary);background:var(--primary);color:var(--onp)}
+.back{background:none;border:none;color:var(--mfg);font-size:14px;cursor:pointer;padding:12px 4px;min-height:44px;margin-top:22px}
+.back:hover{color:var(--fg)}
+
+.res{display:flex;flex-direction:column;gap:24px}
+.rtype{font-size:30px;line-height:1.3;margin-top:8px}
+.rtag{font-size:15.5px;color:var(--mfg);margin-top:8px;line-height:1.6}
+.blk{display:flex;flex-direction:column;gap:8px}
+.blbl{font-size:10.5px;letter-spacing:.14em;font-weight:700;color:var(--acc-deep);display:flex;align-items:center;gap:9px}
+.blbl::after{content:'';flex:1;height:1px;background:var(--line)}
+.blk p{font-size:15px;line-height:1.95}
+.rsub{background:var(--secondary);border-radius:var(--r);padding:16px 17px;font-size:14.5px;line-height:1.9}
+.course{border-left:2px solid var(--accent);padding-left:16px;display:flex;flex-direction:column;gap:11px}
+.course p{font-size:15px;line-height:1.95}
+.course p:last-child{color:var(--mfg)}
+.pace{background:var(--primary);color:var(--onp);border-radius:var(--r);padding:19px 20px;display:flex;flex-direction:column;gap:10px}
+.pace .l{font-size:11px;letter-spacing:.14em;opacity:.62;font-weight:700}
+.pace .v{font-size:22px;font-family:var(--disp);font-weight:700}
+.pace p{font-size:13.5px;line-height:1.9;opacity:.82}
+.rcta{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:21px 20px;display:flex;flex-direction:column;gap:11px}
+.rcta h3{font-size:18px;line-height:1.5}
+.rcta p{font-size:14px;color:var(--mfg);line-height:1.9}
+.rcta .btn{margin-top:5px;width:100%}
+.note{font-size:12.5px;color:var(--mfg);text-align:center;line-height:1.7}
+.rdisc{font-size:12px;color:var(--mfg);line-height:1.9;border-top:1px solid var(--line);padding-top:17px}
+
+.fade{animation:f .3s ease}
+@keyframes f{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+
+@media (max-width:940px){
+  .wrap{padding:0 24px}
+  .band{padding:52px 0}
+  .hero{padding:44px 0 52px}
+  .hero-grid,.i-grid{grid-template-columns:1fr;gap:30px}
+  h1{font-size:36px;line-height:1.25}
+  .hero .lede{font-size:15px}
+  .sec-h{font-size:24px}
+  .inst h2{font-size:29px}
+  .closing h2{font-size:24px}
+  .p-grid,.c-grid,.aw-grid{grid-template-columns:repeat(2,1fr)}
+  .c-card.feat{grid-column:span 2;order:-1}
+  .steps,.s-grid{grid-template-columns:1fr;gap:22px}
+  .stat.div{border-left:none;padding-left:0}
+  .stat.big .num{font-size:52px}
+  .w-grid{grid-template-columns:repeat(2,1fr)}
+  .proof{flex-direction:column;align-items:flex-start}
+  .proof img{width:100%}
+  .sticky{display:flex}
+  body:not(.quizmode){padding-bottom:76px}
+  .hero .btn,.closing .btn,.mid-cta .btn{width:100%}
+}
+@media (max-width:560px){
+  .p-grid,.c-grid,.aw-grid,.w-grid{grid-template-columns:1fr}
+  .w-item.wide{grid-column:span 1}
+  .c-card.feat{grid-column:span 1}
+  .qtext{font-size:21px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hd">
+    <div class="logo"><i>✦</i>奶茶美肌</div>
+    <button class="hd-cta" type="button" data-start>開始測驗 →</button>
+    <span class="qcount" id="qcount"></span>
+  </div>
+  <div class="qbar"><i id="qbar"></i></div>
+</header>
+
+<!-- ═══════════ 首頁 ═══════════ -->
+<div id="landing">
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">膚色遮瑕師培訓 · 職涯探索</p>
+      <h1>你也想過，有一天不用再看老闆臉色，自己說了算嗎？</h1>
+      <p class="lede">但不是只有很會講話的人才做得起來。這一行有四種完全不同的成功方式——手還在練的人、不擅長社交的人，各有各的路。11 個問題，看看你是哪一種。</p>
+      <div class="cta-row">
+        <button class="btn" type="button" data-start>開始測驗，看看我是哪一種 →</button>
+        <span class="trust">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          約 3 分鐘・不用留資料也看得到結果
+        </span>
+      </div>
+    </div>
+    <div class="compass">
+      <span class="tag">四種類型</span>
+      <p class="lbl">你會拿到的結果</p>
+      <h3>你是哪一種遮瑕師？</h3>
+      <div class="ctype"><i></i><span>慢工出細活型——別人做不了的，找你</span></div>
+      <div class="ctype"><i></i><span>客人捨不得換型——他們記得的是你</span></div>
+      <div class="ctype"><i></i><span>好東西藏不住型——你讓更多人知道</span></div>
+      <div class="ctype"><i></i><span>越做越想開店型——你會做成一門生意</span></div>
+      <p class="compass-foot">不是替你貼標籤，而是幫你找到現在最順的那條路。</p>
+    </div>
+  </div>
+</section>
+
+<section class="band persona">
+  <div class="wrap">
+    <h2 class="sec-h">這是為你準備的</h2>
+    <ul class="p-grid">
+      <li class="p-card"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>每天被排班綁住，連陪孩子的時間都要用搶的</span></li>
+      <li class="p-card"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 17h18"/><path d="M4 13h6l2-4 3 6 2-3h3"/></svg><span>死薪水領了好幾年，怎麼加班也加不出未來</span></li>
+      <li class="p-card"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3v9a4 4 0 004 4h4"/><path d="M18 3v18"/><path d="M15 6l3-3 3 3"/></svg><span>美甲美睫紋繡都做過了，想找一個還沒被做爛的技術</span></li>
+      <li class="p-card"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12a9 9 0 11-3-6.7"/><path d="M21 3v6h-6"/></svg><span>手頭正緊，需要一份能穩定周轉的收入</span></li>
+    </ul>
+    <p class="p-foot">不管你是哪一種，都不是你一個人在想這些。</p>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <p class="eyebrow">來之前，大家都在想這些</p>
+    <h2 class="sec-h">先回答心裡的那幾個問號</h2>
+    <div class="c-grid">
+      <article class="c-card feat">
+        <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11l18-5v12L3 13v-2z"/><path d="M11.6 16.8A3 3 0 117 15.6"/></svg>
+        <h3>最怕的不是學不會，是學會了卻找不到客人</h3>
+        <p>這是幾乎每個人來之前最大的擔心。找客源這件事，跟操作技術一樣是可以被教會的——這也是測驗會一起看的部分。</p>
+      </article>
+      <article class="c-card">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <h3>時間被工作和孩子綁死，哪來的時間學新技術？</h3>
+        <p>不用辭職、不用先變出一大把時間出來。用預約制排班，是很多人真正上手的方式。</p>
+      </article>
+      <article class="c-card">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 11V6a2 2 0 00-4 0M14 10V4a2 2 0 00-4 0v6M10 10V6a2 2 0 00-4 0v9"/><path d="M18 8a2 2 0 014 0v6a8 8 0 01-8 8h-2a8 8 0 01-8-8"/></svg>
+        <h3>手不巧、零基礎，會不會學了也是白學？</h3>
+        <p>手感是練出來的，不是天生的。而且四種類型裡，有兩種根本不靠手最巧取勝。</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="band steps-band">
+  <div class="wrap">
+    <h2 class="sec-h">3 分鐘之後，你會拿到</h2>
+    <ol class="steps">
+      <li class="step"><span class="step-n">01</span><h3>你的遮瑕師類型</h3><p>四種類型裡你屬於哪一種，還有你身上帶著哪一型的第二成分</p></li>
+      <li class="step"><span class="step-n">02</span><h3>這一型最容易卡住的地方</h3><p>你的優勢會在哪裡變成陷阱，以及怎麼提前避開</p></li>
+      <li class="step"><span class="step-n">03</span><h3>現在最適合你的起步節奏</h3><p>兼職起步、轉職探索，還是直接創業——看你現在的狀態</p></li>
+    </ol>
+    <div class="mid-cta"><button class="btn" type="button" data-start>開始測驗，看看我是哪一種 →</button></div>
+  </div>
+</section>
+
+<section class="band stats">
+  <div class="wrap s-grid">
+    <div class="stat big"><span class="num">4,100+</span><span class="lbl">遮瑕服務人次</span><span class="sub">2.5 年內累積，平均每年超過 1,600 次</span></div>
+    <div class="stat div"><span class="num">220+</span><span class="lbl">結業學員</span><span class="sub">你不會是第一個</span></div>
+    <div class="stat div"><span class="num">2.5 年</span><span class="lbl">教學經驗</span><span class="sub">專注膚色遮瑕單一技術</span></div>
+  </div>
+</section>
+
+<section class="band inst">
+  <div class="wrap i-grid">
+    <figure class="i-shot" style="margin:0"><img src="images/instructor.webp" alt="奶茶美肌講師 陳怡君" loading="lazy" width="1200" height="1500"></figure>
+    <div>
+      <p class="eyebrow">認識你的老師</p>
+      <h2>陳怡君</h2>
+      <p class="role">奶茶美肌・膚色遮瑕師培訓講師</p>
+      <p class="lede">從第一線接案做到教學，累積 4,100+ 次遮瑕服務經驗。課程裡教的每一個判斷，都是真的在客人臉上驗證過的——不是理論，是做出來的。</p>
+      <ul class="pills">
+        <li class="pill">BEAUTY STARS WORLD CUP 2025・國際評審官</li>
+        <li class="pill">ISO/IEC 17024:2012 認證賽事</li>
+      </ul>
+      <aside class="proof">
+        <img src="images/proof.webp" alt="BEAUTY STARS WORLD CUP 2025 頒獎現場" loading="lazy" width="1200" height="900">
+        <p><b>BEAUTY STARS WORLD CUP 2025</b><br>國際美業環球之星世界盃<br>受邀擔任國際評審官（International Adjudicator）</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="band aw-band">
+  <div class="wrap">
+    <p class="eyebrow">不是老師得獎，是學生得獎</p>
+    <h2 class="sec-h">來上課的人，後來站上了國際賽的頒獎台</h2>
+    <p class="lede">BEAUTY STARS WORLD CUP 2025（ISO/IEC 17024:2012 認證賽事）膚色遮瑕相關組別，奶茶美肌學員拿下 1 金、1 王者亞軍、2 銀。</p>
+    <div class="aw-grid">
+      <article class="aw"><div class="aw-img"><span class="medal m-g">金獎 GOLD</span><img src="images/award-1.webp" alt="奶茶美肌學員 王同學 金獎" loading="lazy" width="900" height="1125"></div><div class="aw-b"><span class="nm">王同學</span><span class="cat">肌膚色素還原（黑眼圈）</span><span class="tg">奶茶美肌學員</span></div></article>
+      <article class="aw"><div class="aw-img"><span class="medal m-k">王者亞軍</span><img src="images/award-2.webp" alt="奶茶美肌學員 陳同學 王者亞軍" loading="lazy" width="900" height="1125"></div><div class="aw-b"><span class="nm">陳同學</span><span class="cat">膚色重建（疤痕類）</span><span class="tg">奶茶美肌學員</span></div></article>
+      <article class="aw"><div class="aw-img"><span class="medal m-s">銀獎 SILVER</span><img src="images/award-3.webp" alt="奶茶美肌學員 金同學 銀獎" loading="lazy" width="900" height="1125"></div><div class="aw-b"><span class="nm">金同學</span><span class="cat">肌膚色素還原（疤痕類）</span><span class="tg">奶茶美肌學員</span></div></article>
+      <article class="aw"><div class="aw-img"><span class="medal m-s">銀獎 SILVER</span><img src="images/award-4.webp" alt="奶茶美肌學員 林同學 銀獎" loading="lazy" width="900" height="1125"></div><div class="aw-b"><span class="nm">林同學</span><span class="cat">肌膚色素還原（黑眼圈）</span><span class="tg">奶茶美肌學員</span></div></article>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <p class="eyebrow">真的有人走完了</p>
+    <h2 class="sec-h">220 位結業學員，這是其中 49 個結業現場</h2>
+    <p class="lede">照片皆為學員結業當天拍攝。證書上的姓名已做去識別化處理，只保留姓氏。</p>
+    <div class="w-grid fold" id="wgrid">
+      <figure class="w-item"><img src="images/wall-01.webp" alt="9 位同期學員結業" loading="lazy" width="1000" height="1250"><figcaption>9 位同期學員結業</figcaption></figure>
+      <figure class="w-item"><img src="images/grad-12.webp" alt="2025.06 結業" loading="lazy" width="1000" height="1250"><figcaption>2025.06 結業</figcaption></figure>
+      <figure class="w-item wide"><img src="images/grad-30.webp" alt="2026.01 結業" loading="lazy" width="1600" height="1000"><figcaption>2026.01 結業</figcaption></figure>
+      <figure class="w-item"><img src="images/grad-11.webp" alt="2025.05 結業" loading="lazy" width="1000" height="1250"><figcaption>2025.05 結業</figcaption></figure>
+      <figure class="w-item wide"><img src="images/grad-05.webp" alt="2025.03 結業" loading="lazy" width="1600" height="1000"><figcaption>2025.03 結業</figcaption></figure>
+      <figure class="w-item"><img src="images/grad-18.webp" alt="2025.09 結業" loading="lazy" width="1000" height="1250"><figcaption>2025.09 結業</figcaption></figure>
+      <figure class="w-item wide"><img src="images/grad-16.webp" alt="2025.08 結業" loading="lazy" width="1600" height="1000"><figcaption>2025.08 結業</figcaption></figure>
+      <figure class="w-item"><img src="images/grad-15.webp" alt="2025.07 結業" loading="lazy" width="1000" height="1250"><figcaption>2025.07 結業</figcaption></figure>
+      <figure class="w-item"><img src="images/wall-02.webp" alt="5 位學員結業合影" loading="lazy" width="1000" height="1250"><figcaption>5 位學員結業合影</figcaption></figure>
+      <figure class="w-item"><img src="images/grad-28.webp" alt="2025.12 結業" loading="lazy" width="1000" height="1250"><figcaption>2025.12 結業</figcaption></figure>
+      <figure class="w-item"><img src="images/grad-33.webp" alt="2026.02 結業" loading="lazy" width="1000" height="1250"><figcaption>2026.02 結業</figcaption></figure>
+      <figure class="w-item"><img src="images/grad-14.webp" alt="2025.07 結業" loading="lazy" width="1000" height="1250"><figcaption>2025.07 結業</figcaption></figure>
+      <figure class="w-item"><img src="images/grad-01.webp" alt="2025.01 結業" loading="lazy" width="1000" height="1250"><figcaption>2025.01 結業</figcaption></figure>
+      <figure class="w-item"><img src="images/grad-02.webp" alt="2025.02 結業" loading="lazy" width="1000" height="1250"><figcaption>2025.02 結業</figcaption></figure>
+      <figure class="w-item wide"><img src="images/grad-03.webp" alt="2025.03 結業" loading="lazy" width="1600" height="1000"><figcaption>2025.03 結業</figcaption></figure>
+      <figure class="w-item"><img src="images/grad-04.webp" alt="2025.03 結業" loading="lazy" width="1000" height="1250"><figcaption>2025.03 結業</figcaption></figure>
+      <figure class="w-item wide"><img src="images/grad-06.webp" alt="2025.04 結業" loading="lazy" width="1600" height="1000"><figcaption>2025.04 結業</figcaption></figure>
+      <figure class="w-item"><img src="images/grad-07.webp" alt="2025.04 結業" loading="lazy" width="1000" height="1250"><figcaption>2025.04 結業</figcaption></figure>
+      <figure class="w-item"><img src="images/grad-08.webp" alt="2025.04 結業" loading="lazy" width="1000" height="1250"><figcaption>2025.04 結業</figcaption></figure>
+      <figure class="w-item"><img src="images/grad-09.webp" alt="2025.05 結業" loading="lazy" width="1000" height="1250"><figcaption>2025.05 結業</figcaption></figure>
+      <figure class="w-item"><img src="images/grad-10.webp" alt="2025.05 結業" loading="lazy" width="1000" height="1250"><figcaption>2025.05 結業</figcaption></figure>
+      <figure class="w-item wide"><img src="images/grad-13.webp" alt="2025.06 結業" loading="lazy" width="1600" height="1000"><figcaption>2025.06 結業</figcaption></figure>
+      <figure class="w-item"><img src="images/grad-17.webp" alt="2025.09 結業" loading="lazy" width="1000" height="1250"><figcaption>2025.09 結業</figcaption></figure>
+      <figure class="w-item wide"><img src="images/grad-19.webp" alt="2025.09 結業" loading="lazy" width="1600" height="1000"><figcaption>2025.09 結業</figcaption></figure>
+      <figure class="w-item"><img src="images/grad-20.webp" alt="2025.10 結業" loading="lazy" width="1000" height="1250"><figcaption>2025.10 結業</figcaption></figure>
+      <figure class="w-item"><img src="images/grad-21.webp" alt="2025.10 結業" loading="lazy" width="1000" height="1250"><figcaption>2025.10 結業</figcaption></figure>
+      <figure class="w-item"><img src="images/grad-22.webp" alt="2025.10 結業" loading="lazy" width="1000" height="1250"><figcaption>2025.10 結業</figcaption></figure>
+      <figure class="w-item"><img src="images/grad-23.webp" alt="2025.10 結業" loading="lazy" width="1000" height="1250"><figcaption>2025.10 結業</figcaption></figure>
+      <figure class="w-item"><img src="images/grad-24.webp" alt="2025.10 結業" loading="lazy" width="1000" height="1250"><figcaption>2025.10 結業</figcaption></figure>
+      <figure class="w-item"><img src="images/grad-25.webp" alt="2025.11 結業" loading="lazy" width="1000" height="1250"><figcaption>2025.11 結業</figcaption></figure>
+      <figure class="w-item"><img src="images/grad-26.webp" alt="2025.11 結業" loading="lazy" width="1000" height="1250"><figcaption>2025.11 結業</figcaption></figure>
+      <figure class="w-item"><img src="images/grad-27.webp" alt="2025.11 結業" loading="lazy" width="1000" height="1250"><figcaption>2025.11 結業</figcaption></figure>
+      <figure class="w-item"><img src="images/grad-29.webp" alt="2025.12 結業" loading="lazy" width="1000" height="1250"><figcaption>2025.12 結業</figcaption></figure>
+      <figure class="w-item wide"><img src="images/grad-31.webp" alt="2026.02 結業" loading="lazy" width="1600" height="1000"><figcaption>2026.02 結業</figcaption></figure>
+      <figure class="w-item"><img src="images/grad-32.webp" alt="2026.02 結業" loading="lazy" width="1000" height="1250"><figcaption>2026.02 結業</figcaption></figure>
+      <figure class="w-item"><img src="images/grad-34.webp" alt="2026.03 結業" loading="lazy" width="1000" height="1250"><figcaption>2026.03 結業</figcaption></figure>
+      <figure class="w-item wide"><img src="images/grad-35.webp" alt="2026.03 結業" loading="lazy" width="1600" height="1000"><figcaption>2026.03 結業</figcaption></figure>
+      <figure class="w-item"><img src="images/grad-36.webp" alt="2026.03 結業" loading="lazy" width="1000" height="1250"><figcaption>2026.03 結業</figcaption></figure>
+      <figure class="w-item"><img src="images/wall-03.webp" alt="3 位學員結業合影" loading="lazy" width="1000" height="1250"><figcaption>3 位學員結業合影</figcaption></figure>
+      <figure class="w-item"><img src="images/wall-04.webp" alt="4 位同期學員結業" loading="lazy" width="1000" height="1250"><figcaption>4 位同期學員結業</figcaption></figure>
+      <figure class="w-item"><img src="images/wall-05.webp" alt="師生結業合照" loading="lazy" width="1000" height="1250"><figcaption>師生結業合照</figcaption></figure>
+      <figure class="w-item"><img src="images/wall-06.webp" alt="實作課程結業" loading="lazy" width="1000" height="1250"><figcaption>實作課程結業</figcaption></figure>
+      <figure class="w-item"><img src="images/wall-07.webp" alt="單人結業證書" loading="lazy" width="1000" height="1250"><figcaption>單人結業證書</figcaption></figure>
+      <figure class="w-item"><img src="images/wall-08.webp" alt="單人結業證書" loading="lazy" width="1000" height="1250"><figcaption>單人結業證書</figcaption></figure>
+      <figure class="w-item"><img src="images/wall-09.webp" alt="結業合影" loading="lazy" width="1000" height="1250"><figcaption>結業合影</figcaption></figure>
+      <figure class="w-item"><img src="images/extra-10.webp" alt="單人結業證書" loading="lazy" width="1000" height="1250"><figcaption>單人結業證書</figcaption></figure>
+      <figure class="w-item"><img src="images/extra-11.webp" alt="單人結業證書" loading="lazy" width="1000" height="1250"><figcaption>單人結業證書</figcaption></figure>
+      <figure class="w-item"><img src="images/extra-12.webp" alt="雙人結業合影" loading="lazy" width="1000" height="1250"><figcaption>雙人結業合影</figcaption></figure>
+      <figure class="w-item"><img src="images/extra-13.webp" alt="雙人結業合影" loading="lazy" width="1000" height="1250"><figcaption>雙人結業合影</figcaption></figure>
+    </div>
+    <button class="w-more" type="button" id="wmore">看更多結業照片（還有 37 張）</button>
+  </div>
+</section>
+
+<section class="band closing">
+  <div class="wrap">
+    <p class="eyebrow">給正在找方向的你</p>
+    <h2>有人需要的是喘口氣的兼職收入，有人要的是離職的底氣，有人只是想幫現有的事業多開一條路。</h2>
+    <p class="lede">不管你現在站在哪一種，這個測驗都會告訴你：以你的個性與現在的狀態，最順的是哪一條路——而不是最貼近別人的故事。</p>
+    <button class="btn" type="button" data-start>開始測驗，看看我是哪一種 →</button>
+    <p class="disc">本測驗為職涯與學習方向的自我探索，不是醫療診斷、疤痕可施作判定，也不保證收入或客源。實際個案仍需依專業評估、原料安全與相關規範處理。</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <span>© 2026 奶茶美肌 · 膚色遮瑕師培訓</span>
+    <span>先理解自己，再選擇適合的學習步調。</span>
+  </div>
+</footer>
+
+</div><!-- /#landing -->
+
+<div class="sticky">
+  <small>約 3 分鐘<br>不用留資料</small>
+  <button class="btn" type="button" data-start>開始測驗 →</button>
+</div>
+
+<!-- ═══════════ 測驗 ═══════════ -->
+<main id="quiz"></main>
+
+<script>
+(function(){
+"use strict";
+var CFG = window.CONFIG || {};
+
+var Q = [
+ {ax:'P',tie:true,t:'朋友傳訊息說「我最近臉上狀況很差，好煩」，你的第一個反應比較接近？',
+  o:[['先問「怎麼了，最近壓力很大嗎？」',1],['先問「是哪一種？長在哪、多久了？」',-1]]},
+ {ax:'E',tie:true,t:'你發現一家很棒的店、或一個很好用的東西，你會？',
+  o:[['分享出去，讓更多人也知道',1],['自己默默去就好，不太希望變得太多人',-1]]},
+ {ax:'P',t:'同一份工作做久了，比較讓你有成就感的是？',
+  o:[['有人指名要你做，說「就是要找你」',1],['你把一件很難的事，做到自己滿意',-1]]},
+ {ax:'E',t:'哪一種狀態讓你比較安心？',
+  o:[['手上有很多機會在跑，就算不確定哪個會成',1],['手上機會不多，但每一個都很穩',-1]]},
+ {ax:'P',t:'下班後如果有兩小時完全自由，你比較可能？',
+  o:[['約人聊聊、回訊息、看看別人在做什麼',1],['一個人研究、整理、把某件事徹底弄懂',-1]]},
+ {ax:'E',t:'你比較能接受哪一種辛苦？',
+  o:[['同一件事重複做很多次，把量累積出來',1],['同一件事反覆修，直到自己過得了自己那關',-1]]},
+ {ax:'P',t:'假設你已經是遮瑕師，同一天有兩個預約撞期，你只能親自做一個：',
+  h:'沒有標準答案，選你直覺想留下的那一個。',
+  o:[['一位老客人，這次是為了她很在意的場合來的',1],['一位新客人，狀況很棘手，她之前找過三家都沒處理好',-1]]},
+ {ax:'E',t:'做遮瑕做到第二年，你比較想要的畫面是？',
+  o:[['每個月都有新客人進來，行程很滿，開始需要幫手',1],['客人不多但都是回頭客，你很清楚每個人的狀況，時間也穩定',-1]]},
+ {ax:'time',t:'接下來這段時間，你實際能安排出來做這件事的時間是？',
+  h:'先不用想理想狀態，選最接近你目前生活的答案。',
+  o:[['平日只能擠出零碎時間，週末再集中',1],['可以固定排出每週幾個時段',2],['我能自己決定時間怎麼用',3]]},
+ {ax:'motive',t:'你會想學遮瑕，最接近的原因是？',
+  o:[['想要工作時間自由一點，不被班表綁住',1],['想突破現在的收入天花板',2],['我已經有客人或店，想多一條專業線',3]]},
+ {ax:'safe',t:'半永久遮瑕會直接接觸皮膚。面對原料、色差與顧客安全，你的想法比較接近？',
+  o:[['我會先把原料、衛生、評估與術後照護規範學清楚',1],
+     ['我做事細心，遇到不確定的案例願意停下來諮詢或轉介',2],
+     ['我對流程還不熟悉，但知道一定要先學會、練習到位才能真正上手接案，需要老師從頭帶',3]]}
+];
+
+var T = {
+ 1:{n:'慢工出細活型',tag:'別人做不了的，找你',
+  fear:'你可能正在想「我手不夠巧怎麼辦」。但你剛才的答案顯示，你在意的其實不是快，是做到位——這跟手巧不巧是兩件事。手上的穩定度是練出來的，但「不做到滿意就渾身不對勁」這件事練不出來，你本來就有。',
+  adv:'遮瑕這一行最值錢的案子，是別人處理不好的那些：陳年疤痕、色差明顯的區塊、之前被做壞需要修的。這些案子需要的不是話術，是願意花時間判斷、敢說「這個我要先評估」的人。',
+  look:'客人不會很多，但每一個客單價都高，而且幾乎都是轉介來的——「我朋友說你這邊處理得好」。你不需要很會行銷，你的作品會替你說話。',
+  care:'你最大的風險不是技術，是太晚開始收費。追求完美的人常常覺得「我還沒準備好」，結果第一個客人拖了半年。你需要一個明確的「達到這個標準就可以開始接案」的門檻，而不是無止境的自我要求。'},
+ 2:{n:'客人捨不得換型',tag:'他們記得的不只是效果，是你',
+  fear:'你可能覺得自己「沒什麼特別厲害的技能」。但你剛才的答案顯示一件很多人沒有的事：你會先看見人，才看見問題。在遮瑕這一行，這不是軟性優勢，是核心資產——因為來遮疤的人，帶著的往往不只是疤。',
+  adv:'這是一個高度情緒性的服務。客人願意讓你看她最不想被看見的地方。你天生讓人放下防備，這件事技術好的人不一定做得到，而且教不來。',
+  look:'你的客人黏著度會很高，回頭率驚人，而且會主動幫你介紹——不是因為你行銷做得好，是因為她們想讓朋友也遇到你。你可能不需要很多客人就能穩定，因為每一個都留得住。',
+  care:'你的風險是不好意思收錢。跟客人變成朋友之後，漲價、收訂金、拒絕不合理的要求都會變難。你需要在關係變深之前，先把規則講清楚。'},
+ 3:{n:'好東西藏不住型',tag:'你讓更多人知道這件事存在',
+  fear:'你可能正在想「我又不會拍片，也不是網紅」。但這一型的重點從來不是流量，是你遇到好東西就想講給別人聽這個本能。大部分人沒有這個本能，有的人才有辦法持續分享——技巧可以學，本能不行。',
+  adv:'台灣知道「膚色遮瑕」這件事的人還很少。很多人有疤、有胎記、有妊娠紋，卻不知道有這個選項。這個市場現在缺的不是技術好的人，是願意讓更多人知道它存在的人。',
+  look:'你可能會從自己的紀錄開始——第一次練習、第一個客人的前後對照。累積一段時間之後，你的客人不是靠轉介來的，是自己找上門的。往後也最容易走向教學或聯名。',
+  care:'你的風險是曝光跑在技術前面。有人找上門了，但你還做不到你講的那個水準，落差會反噬。這一型的人最需要的是：在開始大量曝光之前，先把手上功夫練到對得起自己講的話。'},
+ 4:{n:'越做越想開店型',tag:'你會把它做成一門生意',
+  fear:'你可能覺得「我又沒開過店，哪懂經營」。但你剛才的答案顯示，你看事情不是只看眼前這一次，而是會想「這樣做能不能重複、能不能更順」。這是經營者的腦——多數技術很好的人反而沒有。',
+  adv:'遮瑕這一行有個特點：單次操作時間短、單價高、可以預約制。這意味著它天生適合被系統化——排班、標準流程、甚至帶人。而大部分美業從業者只做得到「自己接自己做」，走不到這一步。',
+  look:'你會比別人更早開始想「一天能排幾個」「怎麼讓流程更順」。往後最有機會走向工作室、帶學徒，或多點經營。',
+  care:'你的風險是太早想做大。系統化的前提是那件事本身已經被驗證過。第一年的重點應該是把單一操作做穩、把成本算清楚，而不是急著擴張。順序顛倒過來，很容易做出一個規模很大但不賺錢的東西。'},
+ 5:{n:'什麼都想試試型',tag:'四個方向現在都還開著',
+  fear:'你的答案沒有明顯偏向任何一邊——這在還沒實際做過的人身上非常正常，而且不是壞事。前面四種類型描述的是「已經知道自己怎麼運作的人」，你現在的狀態是「還沒有資料」。硬給你一個標籤，反而會限制你。',
+  adv:'你沒有既定包袱。很多人一開始就認定「我只能走某一條路」，反而錯過更適合自己的方式。',
+  look:'前三個月刻意各試一點：接一個難的案子、經營一個回頭客、發一篇紀錄、認真算一次成本。四件事各做一次，你的傾向會自己浮出來——那比任何測驗都準。',
+  care:'你的風險是一直在試但沒有累積。探索期需要有期限。給自己三個月，時間到了選一個方向深入，而不是繼續四邊都碰。'}
+};
+var SUB = {
+ 1:'而你身上還帶著「慢工出細活」的成分——你不會只滿足於把事情做完，你會在意做得好不好。這讓你比其他{M}的人更耐得住難案。',
+ 2:'而你身上還帶著「客人捨不得換」的成分——你在意的不只是把事情做好，還有對方的感受。這讓你比其他{M}的人多一層別人學不來的溫度。',
+ 3:'而你身上還帶著「好東西藏不住」的成分——你不會做完就算了，你會想讓人知道。這讓你比其他{M}的人更早被看見。',
+ 4:'而你身上還帶著「越做越想開店」的成分——你會不自覺想到下一步、想到怎麼重複。這讓你比其他{M}的人更早走到經營層面。'
+};
+var PACE = {pt:'兼職起步',tr:'轉職探索',bz:'創業發展'};
+
+var C = {
+ '1pt':['遮瑕最貴的案子，是別人做壞了來找人收拾的——那種案子需要的耐性，你本來就有。','但「再多練幾個就開始收費」這句話，你已經對自己說了好一陣子。','你缺的不是技術，是一個不用你自己判斷的及格線。沒有它，第一個客人不會出現。','假皮和真人實作都有老師在旁邊判定——過了就是過了，不用你再自己糾結。'],
+ '1tr':['你不做到滿意不罷休。在別的行業這叫龜毛，在遮瑕這行，這叫做能接難案。','但你心裡那條「這樣才算夠好」的線，這半年往上移了幾次，你自己最清楚。','你缺的不是手感，是一組能讓你判斷「可以離職了」的數字。感覺永遠給不出答案。','課程會帶你把工時、成本和目標算出來，兩年內也能回來複訓，補到你安心為止。'],
+ '1bz':['你對細節的堅持，正是別人做不出標準的原因——而你做得出來。','但你大概也發現了，最難的不是教會別人，是你不放心讓他做。','你缺的不是能力，是一份寫下來的標準。沒有它，你永遠只能自己做，那不叫系統。','課程給你完整的服務流程，從進店到術後回訪都有依據，交出去也有東西可以對照。'],
+ '2pt':['你已經有這行最難買到的東西——別人願意在你面前卸下防備。','但「就當作練習啦，不用給我錢」這句話，你已經講過不只一次。','你缺的不是客人，是把信任換成收入的那一個環節。少了它，第一筆進帳一直不會來。','課程的服務流程裡，收訂金是固定的一步——不用你開口要，走到那裡就完成。'],
+ '2tr':['客人一直回來找你，這是這行最貴、也最難複製的資產。','但一想到要跟熟客開口漲價，你就決定「再看看」——已經看了一陣子了。','你缺的不是客源，是一個算得出來的價格。沒有它，你判斷不了能不能離職。','課程教你把成本和定價算出來，也帶你把 LINE 和社群經營成穩定客源。'],
+ '2bz':['客人會主動幫你介紹，這是開店的人花錢也買不到的起跑點。','但你也卡在同一件事：關係愈深，愈難開口談規則。','你缺的不是人情，是一套不用你開口的規則。少了它，這永遠是接案不是生意。','課程把品牌和服務 SOP 整套給你用——收費變成流程的一部分，不是你個人的為難。'],
+ '3pt':['台灣知道膚色遮瑕的人還很少。這個市場缺的不是技術，是願意講的人——你剛好是。','你大概連帳號名稱都想過了，甚至想過第一支影片要講什麼。','你缺的不是敢發，是發出去接得住的作品。沒有它，第一批客人來了你也留不住。','課程刻意把行銷排在最後一階段，前面先讓你把作品累積起來，講出去才有東西撐。'],
+ '3tr':['你不會做完就算了，你會想讓人知道——這正是獲客最缺的體質。','你大概在別人的貼文底下想過：「這個我也做得到，只是我沒發。」','你缺的不是內容感，是有效的素材。沒有它，你發得再勤也驗證不出這條路能不能全職。','課程直接給你測試過的廣告文案和受眾設定，不用從零試，也不用猜哪個有效。'],
+ '3bz':['你想讓更多人知道這件事——這種驅動力，是規模化最貴的燃料。','你大概已經想過要不要開帳號、要不要拍片，甚至想過跟誰合作。','你缺的不是曝光的意願，是接得住的產能。曝光放大之後，先垮的通常是流程。','課程把廣告投放、私域經營和品牌模式一起給你，工具和流程也一併到位。'],
+ '4pt':['大部分技術很好的人，做一輩子還是自己接自己做。你不一樣，你會想到下一步。','你大概已經在腦中算過一天能排幾個、多久回本——但第一個客人還沒接。','你缺的不是規劃力，是一輪跑過的真實數字。不影響現職也能跑，跑完假設才變依據。','課程的四個階段本身就是可複製的流程，真人實作也有明確的累積目標。'],
+ '4tr':['你會想到下一步、想到怎麼把事情做順——這種腦袋在美業很少見。','你大概已經在比較不同做法哪個划算，但手上還沒有自己的數字可以比。','你缺的不是判斷力，是跑出來的成本。估出來的數字，撐不起全職的決定。','課程教你把工時和成本算出來，也帶你比較不同獲客方式實際差在哪裡。'],
+ '4bz':['你天生會想到怎麼重複、怎麼放大——這正是開店最稀有的能力。','你大概已經想過要找人、要不要開第二個點，甚至想過流程怎麼拆。','你缺的不是野心，是一套寫下來的標準。標準沒定就擴張，複製的會是混亂不是系統。','課程把品牌、SOP 和行銷模式整套授權給你——你擴的是已經跑得動的東西。'],
+ '5pt':['你還沒被任何一條路綁住。在還沒開始的階段，這是優勢不是缺點。','但你收藏的資料、看過的影片，加起來大概夠上完一堂課了。','你缺的不是資訊，是一輪做過的經驗。不影響現職也能跑，跑完傾向自己會浮出來。','課程四個階段都有明確的完成標準，走到哪一段、喜歡哪一段，你會自己知道。'],
+ '5tr':['你想先確認這條路適不適合自己——這比一頭栽進去務實得多。','你大概已經問過幾個人、查過不少資料，但答案都還是別人的。','你缺的不是別人的心得，是自己的數字。少了它，離不離職永遠只能用猜的。','課程會帶你把工時、成本和目標算成具體數字，判斷有依據，不用再靠感覺。'],
+ '5bz':['你已經有客人、有店——比大多數想入行的人，你少走了最難的那一段。','你大概不缺客源，缺的是判斷這條線該放多重、怎麼接進現有的服務。','你缺的不是決斷力，是走過一輪的體感。沒做過，就整合不進既有的生意。','課程從技術到行銷會完整走一遍，每個階段都有完成標準，走完再決定要放多重。']
+};
+
+var ans = new Array(Q.length).fill(null);
+var step = 0, applied = null, lineUserId = null, reported = false;
+
+var qs = new URLSearchParams(location.search);
+if(qs.get('applied')==='1') applied = true;
+if(qs.get('applied')==='0') applied = false;
+
+var quiz  = document.getElementById('quiz');
+var qbar  = document.getElementById('qbar');
+var qcnt  = document.getElementById('qcount');
+
+function score(){
+  var P=0,E=0,tieP=0,tieE=0,time=2,motive=2,safe=null;
+  Q.forEach(function(q,i){
+    var v=ans[i]; if(v===null) return;
+    if(q.ax==='P'){P+=v; if(q.tie)tieP=v;}
+    else if(q.ax==='E'){E+=v; if(q.tie)tieE=v;}
+    else if(q.ax==='time')time=v;
+    else if(q.ax==='motive')motive=v;
+    else if(q.ax==='safe')safe=v;
+  });
+  var main,sub=null;
+  if(P===0&&E===0){ main=5; }
+  else{
+    var p=P!==0?P:tieP, e=E!==0?E:tieE;
+    if(p>0&&e<0)main=2; else if(p>0&&e>0)main=3;
+    else if(p<0&&e<0)main=1; else main=4;
+    var flipE=Math.abs(E)<=Math.abs(P);
+    var FE={1:4,4:1,2:3,3:2}, FP={1:2,2:1,3:4,4:3};
+    sub=flipE?FE[main]:FP[main];
+  }
+  var ps=motive*2+time*1.5;
+  return {main:main,sub:sub,pace:ps<=5?'pt':(ps<=8?'tr':'bz'),P:P,E:E,safe:safe};
+}
+
+function progress(){
+  var pct;
+  if(step<Q.length) pct = step/Q.length*100;
+  else if(step===Q.length && applied===null) pct = 95;   // 還有自報題，不要顯示 100%
+  else pct = 100;
+  qbar.style.width=pct+'%';
+  qcnt.textContent=(step<Q.length)?('第 '+(step+1)+' / '+Q.length+' 題'):'';
+}
+function toTop(){ window.scrollTo({top:0,behavior:'instant'}); }
+
+function question(){
+  var q=Q[step];
+  quiz.className='fade';
+  quiz.innerHTML='<p class="qnum">第 '+(step+1)+' / '+Q.length+' 題</p>'+
+    '<h2 class="qtext">'+q.t+'</h2>'+(q.h?'<p class="qhint">'+q.h+'</p>':'')+
+    '<div class="opts" id="opts" role="group"></div>';
+  var box=document.getElementById('opts');
+  q.o.forEach(function(pair){
+    var b=document.createElement('button');
+    b.type='button'; b.className='opt'+(ans[step]===pair[1]?' sel':'');
+    b.textContent=pair[0];
+    b.addEventListener('click',function(){
+      ans[step]=pair[1];
+      box.querySelectorAll('.opt').forEach(function(x){x.classList.remove('sel')});
+      b.classList.add('sel');
+      setTimeout(function(){ step++; render(); },160);
+    });
+    box.appendChild(b);
+  });
+  if(step>0){
+    var back=document.createElement('button');
+    back.className='back'; back.type='button'; back.textContent='← 上一題';
+    back.addEventListener('click',function(){ step--; render(); });
+    quiz.appendChild(back);
+  }
+  toTop();
+}
+
+function askApplied(){
+  quiz.className='fade';
+  quiz.innerHTML='<p class="qnum">最後一題</p>'+
+    '<h2 class="qtext">你之前有填過我們的報名申請表嗎？</h2>'+
+    '<p class="qhint">這只是為了幫你省下重複填寫的時間。</p>'+
+    '<div class="opts" id="opts"></div>';
+  var box=document.getElementById('opts');
+  [['有，但還沒約到時間',true],['沒有',false],['不太記得了',false]].forEach(function(p){
+    var b=document.createElement('button');
+    b.type='button'; b.className='opt'; b.textContent=p[0];
+    b.addEventListener('click',function(){ applied=p[1]; step++; render(); });
+    box.appendChild(b);
+  });
+  var back=document.createElement('button');
+  back.className='back'; back.type='button'; back.textContent='← 上一題';
+  back.addEventListener('click',function(){ step--; render(); });
+  quiz.appendChild(back);
+  toTop();
+}
+
+function result(){
+  var r=score(), t=T[r.main], c=C[r.main+r.pace];
+  quiz.className='fade';
+  var subHtml = r.sub ? '<div class="rsub">'+SUB[r.sub].replace('{M}',t.n)+'</div>' : '';
+  var cta = applied ? {
+    h:'你上次已經走到最後一步了',
+    p:'你之前填完的申請表我們收到了，資料都還在——你只差選一個時間。以你的類型，顧問會在通話裡直接跟你算：前 90 天該怎麼排，以及你能排出的時間實際能做到什麼收入。',
+    b:'選一個時間就好，不用重填 →', n:'先看看這週還有哪些時段。', u:CFG.BOOKING_URL_B
+  } : {
+    h:'你的起步路徑，還有你實際能做到的數字',
+    p:'你現在知道自己是哪一型了。但「這一型的人前 90 天該做什麼、不該做什麼」，還有「以你能排出的時間，實際能做到什麼收入」——這兩件事沒辦法用一頁講完，要看你的實際狀況算。顧問會在一通視訊裡直接跟你走過這兩件事。',
+    b:'補完最後幾題，預約顧問時間 →', n:'你剛才的答案已經幫你填好一半了。', u:CFG.BOOKING_URL_A
+  };
+  quiz.innerHTML='<div class="res">'+
+    '<div><p class="eyebrow">你的測驗結果</p><h1 class="rtype">'+t.n+'</h1><p class="rtag">'+t.tag+'</p></div>'+
+    '<div class="blk"><p>'+t.fear+'</p></div>'+
+    '<div class="blk"><span class="blbl">你的優勢</span><p>'+t.adv+'</p></div>'+
+    '<div class="blk"><span class="blbl">'+(r.main===5?'建議這樣做':'這一型的樣子')+'</span><p>'+t.look+'</p></div>'+
+    '<div class="blk"><span class="blbl">要小心</span><p>'+t.care+'</p></div>'+
+    subHtml+
+    '<div class="course"><p>'+c[0]+'</p><p>'+c[1]+'</p><p>'+c[2]+'</p><p>'+c[3]+'</p></div>'+
+    '<div class="pace"><span class="l">你現在比較適合的起步節奏</span><span class="v">'+PACE[r.pace]+'</span>'+
+      '<p>至於實際上該怎麼排時間、第一批客人從哪裡來、多久能看到第一筆收入——這三件事顧問會在通話裡直接跟你算。</p></div>'+
+    '<div class="rcta"><h3>'+cta.h+'</h3><p>'+cta.p+'</p>'+
+      '<a class="btn" href="'+cta.u+'" target="_blank" rel="noopener">'+cta.b+'</a>'+
+      '<p class="note">'+cta.n+'</p></div>'+
+    '<p class="rdisc">這是職涯方向的自我探索，不是心理測驗或人格鑑定，也不是替你貼標籤。它反映的是你「目前的傾向」，會隨著你實際做過的事而改變。</p>'+
+    '<button class="btn ghost" type="button" id="again">重新測一次</button>'+
+    '<button class="btn ghost" type="button" id="home">回到首頁</button>'+
+  '</div>';
+  document.getElementById('again').addEventListener('click',function(){ reset(); startQuiz(); });
+  document.getElementById('home').addEventListener('click',function(){ reset(); exitQuiz(); });
+  toTop();
+  report(r);
+}
+
+function report(r){
+  if(reported) return; reported=true;
+  var payload={ts:new Date().toISOString(),lineUserId:lineUserId,
+    mainType:T[r.main].n, subType:r.sub?T[r.sub].n:null, pace:PACE[r.pace],
+    axisP:r.P, axisE:r.E, safety:r.safe, applied:applied, answers:ans};
+  if(!CFG.WEBHOOK_URL){ console.log('[測驗結果]',payload); return; }
+  try{ fetch(CFG.WEBHOOK_URL,{method:'POST',mode:'no-cors',
+    headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}); }
+  catch(e){ console.warn('回報失敗',e); }
+}
+
+function reset(){ ans=new Array(Q.length).fill(null); step=0; reported=false; if(qs.get('applied')===null) applied=null; }
+function render(){
+  progress();
+  if(step<Q.length) return question();
+  if(step===Q.length && applied===null) return askApplied();
+  result();
+}
+function enterQuizView(){ document.body.classList.add('quizmode'); document.body.classList.remove('showsticky'); render(); }
+function exitQuizView(){ document.body.classList.remove('quizmode'); toTop(); onScroll(); }
+
+// 用 pushState 建立歷史紀錄，讓瀏覽器「上一頁」回到首頁而不是離開網站
+function startQuiz(){
+  if(location.hash!=='#quiz') history.pushState({v:'quiz'},'','#quiz');
+  enterQuizView();
+}
+function exitQuiz(){
+  if(location.hash==='#quiz') history.back();   // 交給 popstate 收尾，保持歷史一致
+  else exitQuizView();
+}
+window.addEventListener('popstate',function(){
+  if(location.hash==='#quiz') enterQuizView(); else exitQuizView();
+});
+
+// 底部固定 CTA：捲過 Hero 按鈕之後才出現，避免與首屏 CTA 重複
+var heroBtn=document.querySelector('.hero .btn');
+function onScroll(){
+  if(document.body.classList.contains('quizmode')) return;
+  var past = heroBtn ? (heroBtn.getBoundingClientRect().bottom < 0) : (window.scrollY > 400);
+  document.body.classList.toggle('showsticky', past);
+}
+var wm=document.getElementById('wmore'),wg=document.getElementById('wgrid');
+if(wm&&wg)wm.addEventListener('click',function(){
+  var open=wg.classList.toggle('fold')===false;
+  wm.textContent=open?'收合照片牆':'看更多結業照片（還有 37 張）';
+});
+window.addEventListener('scroll',onScroll,{passive:true});
+onScroll();
+
+Array.prototype.forEach.call(document.querySelectorAll('[data-start]'),function(b){
+  b.addEventListener('click',startQuiz);
+});
+if(location.hash==='#quiz') enterQuizView();
+
+if(CFG.LIFF_ID && window.liff){
+  liff.init({liffId:CFG.LIFF_ID}).then(function(){
+    if(liff.isLoggedIn()) return liff.getProfile().then(function(p){ lineUserId=p.userId; });
+  }).catch(function(){});
+}
+})();
+</script>
+</body>
+</html>
