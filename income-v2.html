@@ -495,7 +495,7 @@ footer{border-top:1px solid var(--line);padding:24px 0;margin-top:20px}
     <div class="sec-row">
       <div>
         <h3 style="font-size:19px">逐月推演</h3>
-        <p class="lede" style="margin-top:8px">每月收入的走勢。底下那條色帶是你當月所在的階段。</p>
+        <p class="lede" id="chartLede" style="margin-top:8px"></p>
       </div>
       <div class="rate">
         <span class="rate-lb">達成率</span>
@@ -678,12 +678,6 @@ footer{border-top:1px solid var(--line);padding:24px 0;margin-top:20px}
       // 下個月的回購池：各自以 80% 回流，免費模特不進池
       poolIntern = Math.round((repIntern + newIntern) * A.repeatRate);
       poolFull   = Math.round((repFull   + newFull)   * A.repeatRate);
-      if (profit >= A.fullTimeLine && firstFullTime === null) firstFullTime = m;
-      // 辭職判定：利潤連續達標 streak 個月，下個月起轉全職
-      if (quitOn && quitAt === null){
-        if (profit >= target){ hitStreak += 1; if (hitStreak >= streak) quitAt = m; }
-        else hitStreak = 0;
-      }
       var salaryNow = (quitOn && !isFull) ? salary : 0;
       // ── 成本 ────────────────────────────────────────────
       var doneNew  = models + clients;
@@ -716,6 +710,18 @@ footer{border-top:1px solid var(--line);padding:24px 0;margin-top:20px}
       var cAd       = costsOn ? income * C.adRatio : 0;   // 半價客人的廣告自然也是一半
       var cost      = cVenue + cMaterial + cAd;
       var profit    = income - cost;
+
+      // ⚠ 下面這兩個判斷「一定要」放在 profit 算完之後。
+      // 原本寫在成本區塊前面，var 提升會讓它們讀到「上個月」的 profit：
+      // 越線月份與辭職月份都會晚報一個月，剛好發生在第 12 個月時還會被整個吃掉
+      // （迴圈沒有第 13 次迭代去讀它）。
+      if (profit >= A.fullTimeLine && firstFullTime === null) firstFullTime = m;
+      // 辭職判定：利潤連續達標 streak 個月，下個月起轉全職
+      if (quitOn && quitAt === null){
+        if (profit >= target){ hitStreak += 1; if (hitStreak >= streak) quitAt = m; }
+        else hitStreak = 0;
+      }
+
       out.push({ m:m, models:models, clients:clients, fresh:doneNew,
                  rep:doneRep, repFull:repFull, repIntern:repIntern,
                  cum:cum, tier:tierAt(cum), income:income,
@@ -753,13 +759,6 @@ footer{border-top:1px solid var(--line);padding:24px 0;margin-top:20px}
     for (var i = 0; i < steps.length; i++) if (steps[i] * mag >= range) return steps[i] * mag;
     return 10 * mag;
   }
-  function niceMax(v){
-    if (v <= 0) return 10000;
-    var mag = Math.pow(10, Math.floor(Math.log10(v)));
-    var steps = [1,1.25,1.5,2,2.5,3,4,5,6,8,10];
-    for (var i=0;i<steps.length;i++) if (steps[i]*mag >= v) return steps[i]*mag;
-    return 10*mag;
-  }
   // Catmull-Rom → 三次貝茲，控制點夾在繪圖區內，避免平滑造成負值溢出
   function smooth(pts, top, bottom){
     if (pts.length < 2) return '';
@@ -779,8 +778,10 @@ footer{border-top:1px solid var(--line);padding:24px 0;margin-top:20px}
     var rows = r.rows;
     // 主線是利潤；開了成本才另外把營業額當背景脈絡畫上去（同一個 Y 軸，絕不用雙軸）
     var key = costsOn ? 'profit' : 'income';
+    // 營業額恆 ≥ 利潤（成本不會是負的），所以上界看 income 就夠；
+    // 但開了辭職目標時薪水帶疊在利潤之上，可能比 income 高，要一起納入
     var hiV = Math.max.apply(null, rows.map(function(x){
-      return Math.max(x.income, quitOn ? x.total : 0);     // 薪水帶疊在利潤上，上限要算進去
+      return Math.max(x.income, quitOn ? x.total : 0);
     }));
     var loV = Math.min(0, Math.min.apply(null, rows.map(function(x){ return x[key]; })));
     var hiTarget = Math.max(A.fullTimeLine * 1.1, hiV * 1.12);
@@ -1037,7 +1038,19 @@ footer{border-top:1px solid var(--line);padding:24px 0;margin-top:20px}
         : '整年沒有營業額';
     }
 
-    document.getElementById('legMain').textContent = costsOn ? '每月利潤' : '每月收入';
+    // 圖表的文字說明：圖例、標題下方的說明、給螢幕閱讀器的 aria-label 要一起換，
+    // 否則切到成本模式後這三處會各說各話
+    var mainName = costsOn ? '每月利潤' : '每月收入';
+    document.getElementById('legMain').textContent = mainName;
+    document.getElementById('chartLede').textContent =
+      mainName + '的走勢。底下那條色帶是你當月所在的階段。'
+      + (costsOn ? '虛線是營業額，兩條線之間的空隙就是成本。' : '')
+      + (quitOn  ? '兼職期間利潤線上方那層是原本的薪水。' : '');
+    document.getElementById('svg').setAttribute('aria-label',
+      '十二個月' + mainName + '折線圖'
+      + (costsOn ? '，另有營業額虛線' : '')
+      + (quitOn  ? '，兼職期間疊有薪水帶並標出辭職月份' : '')
+      + '，含正職參考線與第 3、6、12 個月里程碑');
     // 成本欄位的即時說明
     if (costsOn){
       rentBox.hidden = (venue !== 'month');
