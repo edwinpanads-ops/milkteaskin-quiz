@@ -63,6 +63,16 @@ window.ASSUMPTIONS = {
     otherLabel : '其他耗材',                                  // 手套、麻膏、色素杯、衛生紙、棉棒、濕紙巾
     adRatio : 1/7              // 廣告：營業額的七分之一
   },
+  // ── 辭職目標（按「設定辭職目標」才套用）────────────────
+  // 學員常說「收入到 xxxx 我就辭職全職做」。這是一個兩段式的人生：
+  // 達標之前是兼職（有薪水、時數少），達標之後是全職（沒薪水、時數多）。
+  quit: {
+    salaryDefault : 45000,     // 目前的月薪，用來算「辭職那一刻總收入是升是降」
+    targetDefault : 45000,     // 辭職門檻（比利潤）
+    streaks       : [1, 2, 3], // 要連續幾個月達標才辭
+    streakDefault : 2,         // 單月爆量就辭職是最危險的錯誤，預設要連兩個月
+    afterDefault  : 2          // 辭職後的節奏＝clientAnchors 的第幾個（0 起算，2＝全職每天 4 位）
+  },
   // 開始接客後的四種情境（以每月 22 個工作天換算）
   // week 是這個情境「光接新客就需要」的週時數（2 小時 × n ÷ 4.33），
   // 按下去會同時設定時間與客人兩條滑桿——兼職／全職本來就是成套的
@@ -270,7 +280,16 @@ input[type=range]:focus-visible{outline:2px solid var(--acc-deep);outline-offset
 .c-lab{font-size:12.5px;font-weight:700;fill:var(--fg);font-variant-numeric:tabular-nums}
 .c-hit{fill:transparent;cursor:crosshair}
 .c-cross{stroke:var(--fg);stroke-width:1;opacity:.25;display:none}
-.c-legend span.c-on{display:none}
+.c-legend span.c-on,.c-legend span.q-on{display:none}
+body.quitmode .c-legend span.q-on{display:inline}
+.c-legend i.sal{width:20px;height:11px;border:none;background:var(--secondary);border-radius:2px;
+  border-top:1px solid hsl(32 22% 72%)}
+.c-legend i.qline{width:0;height:14px;border-top:none;border-left:2px solid var(--acc-deep);margin-right:8px}
+/* 薪水帶：兼職期間疊在利潤線上方，辭職那一刻消失——一眼看出你交出去的是哪一塊 */
+.c-sal{fill:var(--secondary);opacity:.8}
+.c-saltop{fill:none;stroke:hsl(32 22% 68%);stroke-width:1}
+.c-quit{stroke:var(--acc-deep);stroke-width:1.5}
+.c-quitlab{font-size:11.5px;font-weight:700;fill:var(--acc-deep)}
 body.costs .c-legend span.c-on{display:inline}
 .c-legend b{font-weight:400}
 .c-legend{display:flex;gap:18px;flex-wrap:wrap;font-size:12px;color:var(--mfg);margin-top:6px}
@@ -296,6 +315,7 @@ tr:last-child td{border-bottom:none}
 .pill{display:inline-block;padding:3px 10px;border-radius:99px;font-size:11.5px;font-weight:700;color:var(--tone-ink);background:var(--tone)}
 tr[data-hit=true] td{background:hsl(156 35% 21% / .05)}
 body:not(.costs) .c-on{display:none}
+body:not(.quitmode) .q-on{display:none}
 td.neg{color:var(--acc-deep)}
 /* 里程碑月份：只在月份欄輕輕標色，不整列反白，免得跟「越過正職線」的底色打架 */
 td.ms{position:relative;font-weight:700;color:var(--acc-deep)}
@@ -424,6 +444,36 @@ footer{border-top:1px solid var(--line);padding:24px 0;margin-top:20px}
           </div>
         </div>
       </div>
+
+      <div class="ctl wide costbox" id="quitbox">
+        <button class="cost-toggle" type="button" id="quitBtn" aria-expanded="false"
+                aria-controls="quitPanel"><span>＋</span>設定辭職目標</button>
+
+        <div class="cost-panel" id="quitPanel" hidden>
+          <div class="cost-grid">
+            <div>
+              <h3>你現在的工作</h3>
+              <label class="rentbox">目前月薪
+                <input type="number" id="salary" min="0" step="1000" value="45000"
+                       inputmode="numeric" aria-label="目前月薪（元）"><span>元 / 月</span></label>
+              <h3 style="margin-top:22px">辭職門檻（比利潤）</h3>
+              <label class="rentbox">遮瑕利潤達到
+                <input type="number" id="target" min="0" step="1000" value="45000"
+                       inputmode="numeric" aria-label="辭職門檻（元／月）"><span>元 / 月</span></label>
+              <div class="rentbox" style="gap:12px">要連續
+                <div class="seg" id="streaks" role="group" aria-label="連續幾個月達標"></div>
+              </div>
+              <p class="hint" id="quitHint"></p>
+            </div>
+            <div>
+              <h3>辭職後的節奏</h3>
+              <div class="anchors" id="qanchors"></div>
+              <p class="hint" id="afterHint"></p>
+              <p class="hint" id="quitWarn"></p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="ladder">
@@ -432,6 +482,7 @@ footer{border-top:1px solid var(--line);padding:24px 0;margin-top:20px}
       <div class="track"><i id="track"></i></div>
       <div class="cap">
         <span id="capL"></span>
+        <span id="capQ"></span>
         <span id="capR"></span>
       </div>
       <div class="kpi" id="kpi" hidden>
@@ -461,6 +512,8 @@ footer{border-top:1px solid var(--line);padding:24px 0;margin-top:20px}
       <div class="c-legend">
         <span><i></i><b id="legMain">每月收入</b></span>
         <span class="c-on"><i class="rev"></i>營業額</span>
+        <span class="q-on"><i class="sal"></i>原本的薪水</span>
+        <span class="q-on"><i class="qline"></i>辭職</span>
         <span><i class="dash"></i>正職參考線</span>
         <span><i class="ms"></i>里程碑（第 3／6／12 個月）</span>
       </div>
@@ -515,6 +568,8 @@ footer{border-top:1px solid var(--line);padding:24px 0;margin-top:20px}
 
   var rate = A.rateDefault;
   var costsOn = false, venue = A.cost.venueDefault, rent = A.cost.rentDefault;
+  var quitOn = false, salary = A.quit.salaryDefault, target = A.quit.targetDefault,
+      streak = A.quit.streakDefault, afterIdx = A.quit.afterDefault;
   var nf = new Intl.NumberFormat('zh-Hant-TW');
   function money(n){ return 'NT$' + nf.format(Math.round(n)); }
   // 單價要保留一位小數：各自四捨五入的話 77+28+66=171，跟合計 170 對不起來
@@ -522,7 +577,11 @@ footer{border-top:1px solid var(--line);padding:24px 0;margin-top:20px}
     return 'NT$' + (Math.round(n * 10) % 10 ? n.toFixed(1) : nf.format(Math.round(n)));
   }
   function dec(n){ return Math.round(n * 10) % 10 ? n.toFixed(1) : String(Math.round(n)); }
-  function short(n){ return n >= 10000 ? (n/10000).toFixed(n%10000?1:0) + '萬' : nf.format(n); }
+  // 圖上的標值一律取整——不取整的話會冒出「−2,028.5」這種半塊錢
+  function short(n){
+    var v = Math.round(n);
+    return Math.abs(v) >= 10000 ? (v/10000).toFixed(v % 10000 ? 1 : 0) + '萬' : nf.format(v);
+  }
 
   // 第 n 位落在哪一階（n 從 1 起算）
   function tierForNth(n){
@@ -571,10 +630,11 @@ footer{border-top:1px solid var(--line);padding:24px 0;margin-top:20px}
   // 只打人數的話，時間吃緊時回購客會自動把空檔補滿，達成率就完全看不出差別。
   // 課程階段找免費模特、結業後約付費客人，是兩個不同的漏斗，分別受各自的節奏限制。
   function simulate(weekHours, modelsPerMonth, leadsPerMonth, achieve){
-    var hoursMonth = weekHours * A.weeksPerMonth * achieve;
+    // 辭職之後換一組時數與客源，所以這兩個值要逐月取，不能在迴圈外算死
+    var after = A.clientAnchors[afterIdx] || A.clientAnchors[A.clientAnchors.length - 1];
     var effModels  = modelsPerMonth * achieve;
-    var effLeads   = leadsPerMonth  * achieve;
     var GRAD       = A.tiers[0].upTo;                  // 課程階段門檻＝15 位
+    var quitAt = null, hitStreak = 0;
     var cum = 0, poolIntern = 0, poolFull = 0, out = [];
     var firstFullTime = null, cleared15 = null;
     var doneAll = 0;          // 累計施作次數（含回購），用來判斷附贈額度用到哪
@@ -582,6 +642,11 @@ footer{border-top:1px solid var(--line);padding:24px 0;margin-top:20px}
     // 按鈕看起來就像壞的。改成把小數存著，攢滿一位才多做一位。
     var carryM = 0, carryL = 0;
     for (var m = 1; m <= A.months; m++){
+      var isFull     = quitAt !== null && m > quitAt;        // 這個月已經是全職了嗎
+      var wkNow      = isFull ? after.week : weekHours;
+      var leadsNow   = isFull ? after.n    : leadsPerMonth;
+      var hoursMonth = wkNow * A.weeksPerMonth * achieve;
+      var effLeads   = leadsNow * achieve;
       var left = hoursMonth, income = 0;
       carryM += effModels; var quotaM = Math.floor(carryM); carryM -= quotaM;
       carryL += effLeads;  var quotaL = Math.floor(carryL); carryL -= quotaL;
@@ -614,6 +679,12 @@ footer{border-top:1px solid var(--line);padding:24px 0;margin-top:20px}
       poolIntern = Math.round((repIntern + newIntern) * A.repeatRate);
       poolFull   = Math.round((repFull   + newFull)   * A.repeatRate);
       if (profit >= A.fullTimeLine && firstFullTime === null) firstFullTime = m;
+      // 辭職判定：利潤連續達標 streak 個月，下個月起轉全職
+      if (quitOn && quitAt === null){
+        if (profit >= target){ hitStreak += 1; if (hitStreak >= streak) quitAt = m; }
+        else hitStreak = 0;
+      }
+      var salaryNow = (quitOn && !isFull) ? salary : 0;
       // ── 成本 ────────────────────────────────────────────
       var doneNew  = models + clients;
       var doneRep  = repFull + repIntern;
@@ -651,13 +722,16 @@ footer{border-top:1px solid var(--line);padding:24px 0;margin-top:20px}
                  hoursUsed:hoursUsed, billHours:billHours, freeHours:freeHours,
                  doneAll:doneAll, cPig:cPig, cNdl:cNdl, cOth:cOth,
                  cVenue:cVenue, cMaterial:cMaterial, cAd:cAd,
-                 cost:cost, profit:profit });
+                 cost:cost, profit:profit,
+                 isFull:isFull, salary:salaryNow, total:profit + salaryNow });
     }
     var sum = function(k){ return out.reduce(function(a,x){ return a + x[k]; }, 0); };
     return { rows:out, cum:cum, firstFullTime:firstFullTime, cleared15:cleared15,
-             hoursMonth:hoursMonth, effModels:effModels, effLeads:effLeads,
-             doneAll:doneAll,
+             hoursMonth:weekHours * A.weeksPerMonth * achieve,
+             effModels:effModels, effLeads:leadsPerMonth * achieve,
+             doneAll:doneAll, quitAt:quitAt,
              yr:{ revenue:sum('income'), cost:sum('cost'), profit:sum('profit'),
+                  salary:sum('salary'), total:sum('total'),
                   venue:sum('cVenue'), material:sum('cMaterial'), ad:sum('cAd'),
                   pig:sum('cPig'), ndl:sum('cNdl'), oth:sum('cOth'),
                   freeHours:sum('freeHours') } };
@@ -705,7 +779,9 @@ footer{border-top:1px solid var(--line);padding:24px 0;margin-top:20px}
     var rows = r.rows;
     // 主線是利潤；開了成本才另外把營業額當背景脈絡畫上去（同一個 Y 軸，絕不用雙軸）
     var key = costsOn ? 'profit' : 'income';
-    var hiV = Math.max.apply(null, rows.map(function(x){ return costsOn ? x.income : x.income; }));
+    var hiV = Math.max.apply(null, rows.map(function(x){
+      return Math.max(x.income, quitOn ? x.total : 0);     // 薪水帶疊在利潤上，上限要算進去
+    }));
     var loV = Math.min(0, Math.min.apply(null, rows.map(function(x){ return x[key]; })));
     var hiTarget = Math.max(A.fullTimeLine * 1.1, hiV * 1.12);
     var loTarget = loV < 0 ? loV * 1.15 : 0;
@@ -734,6 +810,23 @@ footer{border-top:1px solid var(--line);padding:24px 0;margin-top:20px}
     g.push('<text class="c-txt" x="' + (PAD.l+8) + '" y="' + (fy-7) + '">正職參考線 '
            + short(A.fullTimeLine) + '</text>');
 
+    if (quitOn){
+      // 兼職期間才有薪水。把它畫成疊在利潤線上方的一層帶子，
+      // 辭職那一刻帶子消失——「你交出去的是這一塊」比多畫一條線好讀。
+      var pt = rows.filter(function(d){ return d.salary > 0; });
+      if (pt.length){
+        var lo = pt.map(function(d){ return [x(d.m - 1), y(d.profit)]; });
+        var hi = pt.map(function(d){ return [x(d.m - 1), y(d.total)]; });
+        var loP = smooth(lo, top, bottom), hiP = smooth(hi, top, bottom);
+        // 上緣往右走、再沿下緣往左走回來，圍成一個帶狀
+        var back = hi.slice().reverse();
+        g.push('<path class="c-sal" d="' + hiP
+             + 'L' + lo[lo.length-1][0] + ',' + lo[lo.length-1][1]
+             + smooth(lo.slice().reverse(), top, bottom).replace(/^M[^C]*/, '')
+             + 'Z"/>');
+        g.push('<path class="c-saltop" d="' + hiP + '"/>');
+      }
+    }
     if (costsOn){                                    // 營業額：虛線＋淡填色，當作脈絡
       var rp = rows.map(function(d,i){ return [x(i), y(d.income)]; });
       var rpath = smooth(rp, top, bottom);
@@ -759,6 +852,15 @@ footer{border-top:1px solid var(--line);padding:24px 0;margin-top:20px}
            + '" text-anchor="' + anchor + '">'
            + (lv ? (lv < 0 ? '−' + short(-lv) : short(lv)) : '0') + '</text>');
     });
+
+    // 辭職那一刻
+    if (quitOn && r.quitAt !== null && r.quitAt < rows.length){
+      var qx = x(r.quitAt);                          // quitAt 是達標月（0 起算後就是下個月的位置）
+      g.push('<line class="c-quit" x1="' + qx + '" y1="' + top + '" x2="' + qx + '" y2="' + bottom + '"/>');
+      var qa = qx > W * 0.72 ? 'end' : 'start';
+      g.push('<text class="c-quitlab" x="' + (qx + (qa === 'end' ? -6 : 6)) + '" y="' + (top + 12)
+           + '" text-anchor="' + qa + '">第 ' + (r.quitAt + 1) + ' 個月辭職</text>');
+    }
 
     // 階段色帶 + 月份刻度
     var by = PAD.t + plotH + 20, step = plotW / rows.length;
@@ -800,6 +902,9 @@ footer{border-top:1px solid var(--line);padding:24px 0;margin-top:20px}
             ? '<br>營業額 ' + money(d.income) + '　成本 ' + money(d.cost)
               + '<br>當月利潤 <b>' + (d.profit < 0 ? '−' + money(-d.profit) : money(d.profit)) + '</b>'
             : '<br>當月收入 <b>' + (d.income ? money(d.income) : '0') + '</b>')
+        + (quitOn && d.salary > 0
+            ? '<br>原薪水 ' + money(d.salary) + '　<b>總收入 ' + money(d.total) + '</b>'
+            : quitOn ? '<br><b>已辭職</b>，只有遮瑕利潤' : '')
         + '<br>新接 ' + d.fresh + ' 位・回購 ' + d.rep + ' 位'
         + (d.repFull && d.repIntern ? '（' + d.repFull + ' 位全價／' + d.repIntern + ' 位半價）' : '')
         + '・累積 ' + d.cum + ' 位';
@@ -877,6 +982,39 @@ footer{border-top:1px solid var(--line);padding:24px 0;margin-top:20px}
     document.getElementById('capL').innerHTML = '十二個月累積 <b class="num">' + r.cum + '</b> 位';
     document.getElementById('capR').textContent =
       r.cleared15 ? ('第 ' + r.cleared15 + ' 個月做完 15 位模特') : '尚未做完 15 位模特';
+    document.getElementById('capQ').textContent = !quitOn ? ''
+      : (r.quitAt === null ? '十二個月內未達辭職門檻'
+         : r.quitAt >= A.months ? ('第 ' + r.quitAt + ' 個月達標')
+         : ('第 ' + (r.quitAt + 1) + ' 個月起轉全職'));
+
+    // 辭職卡的即時說明
+    if (quitOn){
+      var after = A.clientAnchors[afterIdx];
+      document.getElementById('quitHint').innerHTML = costsOn
+        ? ('利潤連續 <b>' + streak + '</b> 個月達到 ' + money(target) + '，下個月起轉全職。')
+        : ('利潤連續 <b>' + streak + '</b> 個月達到 ' + money(target) + '，下個月起轉全職。'
+           + '<br><b>目前沒有開成本</b>，所以這裡的「利潤」等於營業額——'
+           + '建議先按上面的「加入成本」，門檻才有意義。');
+      document.getElementById('afterHint').innerHTML =
+        '辭職後改用 <b>' + after.tag + '・每天 ' + after.perDay + ' 位</b>：'
+        + '每週 ' + after.week + ' 小時、每月約 ' + after.n + ' 位。';
+      var qw = document.getElementById('quitWarn');
+      if (r.quitAt === null){
+        qw.innerHTML = '<b>十二個月內沒有達標</b>，整年維持兼職。';
+      } else if (r.quitAt >= A.months){
+        qw.innerHTML = '第 <b>' + r.quitAt + '</b> 個月才達標，轉全職會落在推演範圍之外。';
+      } else {
+        var before = r.rows[r.quitAt - 1], afterRow = r.rows[r.quitAt];
+        var diff = afterRow.total - before.total;
+        qw.innerHTML = '辭職前一個月總收入 ' + money(before.total)
+          + '，辭職後第一個月 ' + money(afterRow.total) + '——'
+          + (diff > before.total * 0.1
+              ? '<b>提升 ' + money(diff) + '</b>。'
+              : diff >= 0
+                ? '<b>只多了 ' + money(diff) + '，幾乎沒有改善</b>——這個月你用確定的薪水換到差不多的利潤。'
+                : '<b>反而少了 ' + money(-diff) + '</b>。門檻設得太低了。');
+      }
+    }
 
     // 年 KPI（三格）
     var kpi = document.getElementById('kpi');
@@ -920,7 +1058,10 @@ footer{border-top:1px solid var(--line);padding:24px 0;margin-top:20px}
       var ms = A.milestones.indexOf(x.m) >= 0;
       return '<tr data-hit="' + ((costsOn ? x.profit : x.income) >= A.fullTimeLine) + '">'
            + '<td' + (ms ? ' class="ms"' : '') + '>第 ' + x.m + ' 個月'
-           + (ms ? '<small>里程碑</small>' : '') + '</td>'
+           + (ms || quitOn
+                ? '<small>' + [ms ? '里程碑' : '', quitOn ? (x.isFull ? '全職' : '兼職') : '']
+                    .filter(Boolean).join('・') + '</small>'
+                : '') + '</td>'
            + '<td class="num">' + (x.models ? x.models + ' 位<small>模特</small>' : '')
            + (x.models && x.clients ? '<small>＋</small>' : '')
            + (x.clients ? x.clients + ' 位<small>客人</small>' : '')
@@ -967,6 +1108,23 @@ footer{border-top:1px solid var(--line);padding:24px 0;margin-top:20px}
         + last.tier.name + '</b>。<br>這是把「每月找到 ' + mo + ' 位模特、之後每月約到 '
         + l + ' 位客人、達成率 ' + Math.round(rate*100)
         + '%」一路維持十二個月的結果，中間沒有斷過。';
+    }
+    if (quitOn){
+      if (r.quitAt === null){
+        v += '<br><br><b>辭職目標：</b>十二個月內利潤都沒有連續 ' + streak + ' 個月達到 '
+           + money(target) + '，整年維持兼職。';
+      } else if (r.quitAt >= A.months){
+        v += '<br><br><b>辭職目標：</b>第 ' + r.quitAt + ' 個月才達標，'
+           + '轉全職會落在這十二個月之外。';
+      } else {
+        var bf = r.rows[r.quitAt - 1], af = r.rows[r.quitAt], dd = af.total - bf.total;
+        v += '<br><br><b>辭職目標：</b>第 ' + (r.quitAt + 1) + ' 個月起轉全職。'
+           + '辭職前一個月總收入 ' + money(bf.total) + '（遮瑕 ' + money(bf.profit)
+           + ' ＋ 薪水 ' + money(bf.salary) + '），辭職後第一個月 ' + money(af.total)
+           + '——' + (dd > bf.total * 0.1 ? '<b>提升 ' + money(dd) + '</b>。'
+                    : dd >= 0 ? '<b>只多了 ' + money(dd) + '，幾乎沒有改善。</b>'
+                              : '<b>反而少了 ' + money(-dd) + '，門檻設得太低。</b>');
+      }
     }
     document.getElementById('verdict').innerHTML = v;
 
@@ -1060,6 +1218,44 @@ footer{border-top:1px solid var(--line);padding:24px 0;margin-top:20px}
     render();
   });
 
+  // ── 辭職目標控制項 ─────────────────────────────────
+  var quitBtn = document.getElementById('quitBtn'),
+      quitPanel = document.getElementById('quitPanel'),
+      salaryIn = document.getElementById('salary'),
+      targetIn = document.getElementById('target');
+  salaryIn.value = A.quit.salaryDefault;
+  targetIn.value = A.quit.targetDefault;
+  document.getElementById('streaks').innerHTML = A.quit.streaks.map(function(n){
+    return '<button type="button" data-s="' + n + '" aria-pressed="' + (n === streak)
+         + '">' + n + ' 個月</button>';
+  }).join('');
+  document.getElementById('streaks').addEventListener('click', function(e){
+    var b = e.target.closest('button'); if (!b) return;
+    streak = +b.dataset.s;
+    [].forEach.call(this.children, function(x){ x.setAttribute('aria-pressed', x === b); });
+    render();
+  });
+  document.getElementById('qanchors').innerHTML = A.clientAnchors.map(function(a, i){
+    return '<button type="button" data-i="' + i + '" aria-pressed="' + (i === afterIdx) + '">'
+         + a.tag + '　每天 ' + a.perDay + ' 位</button>';
+  }).join('');
+  document.getElementById('qanchors').addEventListener('click', function(e){
+    var b = e.target.closest('button'); if (!b) return;
+    afterIdx = +b.dataset.i;
+    [].forEach.call(this.children, function(x){ x.setAttribute('aria-pressed', x === b); });
+    render();
+  });
+  salaryIn.addEventListener('input', function(){ salary = Math.max(0, +this.value || 0); render(); });
+  targetIn.addEventListener('input', function(){ target = Math.max(0, +this.value || 0); render(); });
+  quitBtn.addEventListener('click', function(){
+    quitOn = !quitOn;
+    quitPanel.hidden = !quitOn;
+    quitBtn.setAttribute('aria-expanded', quitOn);
+    quitBtn.lastChild.textContent = quitOn ? '收起辭職目標' : '設定辭職目標';
+    document.body.classList.toggle('quitmode', quitOn);
+    render();
+  });
+
   document.getElementById('assume').innerHTML = [
     ['可用月時數', '每週時數 × ' + A.weeksPerMonth],
     ['模特／新客', A.hoursNew + ' 小時／位'],
@@ -1082,7 +1278,9 @@ footer{border-top:1px solid var(--line);padding:24px 0;margin-top:20px}
     ['場地', '前 ' + A.cost.venueFreeSessions + ' 次在教室不計｜時租 '
       + money(A.cost.venues[0].rate) + '／小時（按實際施作時數）'
       + '｜自宅與到府 0 元｜月租自行填寫'],
-    ['正職參考線', money(A.fullTimeLine) + '／月・v2 比的是<b>利潤</b>']
+    ['正職參考線', money(A.fullTimeLine) + '／月・v2 比的是<b>利潤</b>'],
+    ['辭職判定', '利潤連續達標指定月數，<b>下個月</b>起才轉全職（不是達標當月）'],
+    ['辭職後', '時數與客源改用你選的那個情境；<b>薪水歸零</b>，成本設定維持同一套']
   ].map(function(p){
     return '<div><span>' + p[0] + '</span><span>' + p[1] + '</span></div>';
   }).join('');
