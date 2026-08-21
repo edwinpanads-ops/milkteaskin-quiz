@@ -79,29 +79,59 @@ Repo → Settings → Pages → Source 選 `main` / `root` → Save
 
 ## 結果怎麼回到 Setter 手上
 
-`WEBHOOK_URL` 留空時，結果只會印在瀏覽器 console（測試用）。
+`WEBHOOK_URL` 留空時，結果只會印在瀏覽器 console（測試用），**不會存在任何地方**。
 
-填了之後會 POST 這包 JSON：
+### 送出的格式：form-urlencoded，不是 JSON
 
-```json
-{
-  "ts": "2026-08-11T15:30:00.000Z",
-  "lineUserId": null,
-  "mainType": "客人捨不得換型",
-  "subType": "好東西藏不住型",
-  "pace": "兼職起步",
-  "axisP": 2, "axisE": -4,
-  "safety": 3,
-  "applied": false,
-  "answers": [1,-1,1,-1,1,-1,1,-1,2,1,3]
-}
-```
+> ⚠ **不要改回 `Content-Type: application/json`。**
+> 這包是用 `mode:'no-cors'` 送的，瀏覽器在這個模式下只保留 CORS 安全清單內的
+> Content-Type（`form-urlencoded` / `multipart` / `text-plain`），
+> `application/json` 會被**整包丟掉**，Make 的 custom webhook 就拆不出欄位、
+> 只會收到一坨字串，還要多接一個 Parse JSON 才能用。
+> 現在的寫法是丟 `URLSearchParams` 讓 fetch 自己帶 `application/x-www-form-urlencoded`，
+> Make 收到就直接是具名欄位，可以 1:1 拉到 Ragic。
+>
+> 另外帶了 `keepalive:true`，使用者按下 CTA 或直接關掉分頁時這包還是送得出去。
 
-最省事的接法是 **Google Apps Script**：發布成網頁應用程式，把回傳寫進試算表，
-網址貼進 `WEBHOOK_URL` 就好。Make 或 n8n 的 webhook 也可以。
+Make 會收到這些欄位（2026-08-21 實測攔截確認）：
 
-> 用 `mode:'no-cors'` 送出，所以不會因為跨域失敗擋住使用者，
-> 但也讀不到回應。這對「單向記錄」的用途是刻意的取捨。
+| 欄位 | 內容 | 範例 |
+|---|---|---|
+| `ts` | 完成時間，**ISO 格式、UTC 時區** | `2026-08-21T16:03:17.357Z` |
+| `mainType` | 主類型 | `客人捨不得換型` |
+| `subType` | 副類型（測到⑤時為空） | `好東西藏不住型` |
+| `pace` | 起步節奏 | `創業發展` |
+| `timeText` | 能排出的時間，Q9 選項原文 | `可以固定排出每週幾個時段` |
+| `motiveText` | 學遮瑕的原因，Q10 選項原文 | `我已經有客人或店，想多一條專業線` |
+| `safetyText` | 安全意識，Q11 選項原文 | `我做事細心，遇到不確定的案例願意停下來諮詢或轉介` |
+| `applied` | `有填過` / `沒填過` / `未作答` | `沒填過` |
+| `dest` | 被導去哪一條 | `A_liff_form` / `B_simplymeet` |
+| `src` | 流量來源，取 `?src=` 或 `?utm_source=` | `line_menu_new` |
+| `lineUserId` | LINE uid，**目前恆為空**（見上方 LIFF 說明） | |
+| `axisP` / `axisE` | 人↔技 / 廣↔深 的分數 | `4` / `-4` |
+| `safety` | Q11 的選項編號 1–3 | `2` |
+| `answers` | 11 題原始作答，逗號分隔 | `1,-1,1,-1,1,-1,1,-1,2,3,2` |
+
+`timeText` / `motiveText` / `safetyText` 是直接從 `Q` 陣列撈選項原文的，
+題目文案改了回報內容會跟著改，不會兩邊各寫一份而走鐘。
+
+### Make → Ragic 接法
+
+1. Make 開一個 scenario，第一個模組選 **Webhooks › Custom webhook**，
+   按 **Add** 建一個新的、命名（例如 `職涯羅盤測驗`），**複製那個網址**。
+2. 網址貼進 `index.html` 的 `WEBHOOK_URL`，推上 GitHub 等 Pages 建置完成。
+3. 回到 Make，webhook 模組會停在 **Determine data structure** 等待中。
+   這時去**線上的測驗頁實際做一次**，Make 收到第一包就會自動學會上面那些欄位。
+   （在這一步之前，後面的模組看不到任何欄位可以拉。）
+4. 接第二個模組 **Ragic › Create Record**，把欄位對過去。
+5. **記得把 scenario 的排程打開**——只按 Run once 的話只會收一筆，
+   之後所有測驗結果都會直接掉進水裡。
+
+**時區**：`ts` 是 UTC，比台灣慢 8 小時。Ragic 要台灣時間的話，在 Make 裡用
+`formatDate(parseDate(ts); YYYY-MM-DD HH:mm; Asia/Taipei)` 轉一下再寫入。
+
+**用量**：Make 免費方案每月 1000 ops，一筆測驗結果吃 2 ops（webhook 1 ＋ Ragic 1），
+所以大約每月 500 筆會滿。
 
 ---
 
@@ -148,7 +178,7 @@ Q11（安全態度）不計分，只進 Setter 情報。
 ## 已知限制
 
 1. **沒有後端**，所以身分辨識靠網址參數，不是真的比對資料庫。
-2. **結果不會存在你這邊**，除非設定 `WEBHOOK_URL`。
+2. **結果不會存在你這邊**，除非設定 `WEBHOOK_URL`（Make → Ragic，見上方）。目前仍是空值。
 3. **`?applied=1` 是可以被使用者自己改的**——但這個參數只影響 CTA 文案，
    不涉及權限或金流，被改了也沒有實質風險。
 4. 對應表中標為**推論**的 5 組文案（見 v2 對應表的缺口清單），

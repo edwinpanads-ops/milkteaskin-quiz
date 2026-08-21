@@ -626,7 +626,8 @@ function score(){
     sub=flipE?FE[main]:FP[main];
   }
   var ps=motive*2+time*1.5;
-  return {main:main,sub:sub,pace:ps<=5?'pt':(ps<=8?'tr':'bz'),P:P,E:E,safe:safe};
+  return {main:main,sub:sub,pace:ps<=5?'pt':(ps<=8?'tr':'bz'),P:P,E:E,
+          time:time,motive:motive,safe:safe};
 }
 
 function progress(){
@@ -730,15 +731,45 @@ function result(){
   report(r);
 }
 
+// 直接從 Q 撈選項原文，這樣文案改了回報內容也會跟著改，不會各寫一份而走鐘
+function optText(ax,v){
+  for(var i=0;i<Q.length;i++){
+    if(Q[i].ax!==ax) continue;
+    for(var j=0;j<Q[i].o.length;j++) if(Q[i].o[j][1]===v) return Q[i].o[j][0];
+  }
+  return '';
+}
+
 function report(r){
   if(reported) return; reported=true;
-  var payload={ts:new Date().toISOString(),lineUserId:lineUserId,
-    mainType:T[r.main].n, subType:r.sub?T[r.sub].n:null, pace:PACE[r.pace],
-    axisP:r.P, axisE:r.E, safety:r.safe, applied:applied, answers:ans};
+  var payload={
+    ts         : new Date().toISOString(),
+    lineUserId : lineUserId || '',
+    mainType   : T[r.main].n,
+    subType    : r.sub ? T[r.sub].n : '',
+    pace       : PACE[r.pace],
+    timeText   : optText('time',   r.time),    // 能排出來的時間（Q9）
+    motiveText : optText('motive', r.motive),  // 學遮瑕的原因（Q10）
+    safetyText : optText('safe',   r.safe),    // 安全意識（Q11）
+    applied    : applied===true ? '有填過' : (applied===false ? '沒填過' : '未作答'),
+    dest       : applied ? 'B_simplymeet' : 'A_liff_form',
+    src        : qs.get('utm_source') || qs.get('src') || '',
+    axisP      : r.P,
+    axisE      : r.E,
+    safety     : r.safe,
+    answers    : ans.join(',')
+  };
   if(!CFG.WEBHOOK_URL){ console.log('[測驗結果]',payload); return; }
-  try{ fetch(CFG.WEBHOOK_URL,{method:'POST',mode:'no-cors',
-    headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}); }
-  catch(e){ console.warn('回報失敗',e); }
+  // ⚠ 用 form-urlencoded，不要用 JSON。
+  // no-cors 模式下瀏覽器只保留 CORS 安全清單內的 Content-Type
+  // （form-urlencoded / multipart / text-plain），application/json 會被整個丟掉，
+  // Make 的 custom webhook 就拆不出欄位。傳 URLSearchParams 讓 fetch 自己帶對的 header。
+  // keepalive 是為了使用者按下 CTA 或直接關掉分頁時，這包還是送得出去。
+  try{
+    var body=new URLSearchParams();
+    Object.keys(payload).forEach(function(k){ body.set(k, String(payload[k])); });
+    fetch(CFG.WEBHOOK_URL,{method:'POST',mode:'no-cors',keepalive:true,body:body});
+  }catch(e){ console.warn('回報失敗',e); }
 }
 
 function reset(){ ans=new Array(Q.length).fill(null); step=0; reported=false; if(qs.get('applied')===null) applied=null; }
