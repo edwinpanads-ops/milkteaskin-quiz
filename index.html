@@ -152,7 +152,8 @@ h1{font-size:52px;line-height:1.26}
 .aw{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column}
 .aw-img{aspect-ratio:4/5;position:relative;background:var(--muted);overflow:hidden}
 .aw-img img{width:100%;height:100%;object-fit:cover}
-.medal{position:absolute;top:11px;left:11px;font-size:11px;font-weight:800;letter-spacing:.04em;padding:5px 11px;border-radius:999px;color:hsl(156 28% 13%);backdrop-filter:blur(6px)}
+.medals{position:absolute;top:11px;left:11px;display:flex;flex-wrap:wrap;gap:5px;max-width:calc(100% - 22px)}
+.medal{font-size:11px;font-weight:800;letter-spacing:.04em;padding:5px 11px;border-radius:999px;color:hsl(156 28% 13%);backdrop-filter:blur(6px)}
 .m-g{background:hsl(43 92% 63% / .94)}.m-k{background:hsl(19 84% 70% / .95)}.m-s{background:hsl(210 14% 84% / .95)}
 .aw-b{padding:15px 16px 18px;display:flex;flex-direction:column;gap:4px}
 .aw-b .nm{font-size:15px;font-weight:700;font-family:var(--disp)}
@@ -226,6 +227,14 @@ body.quizmode footer{display:none}
 .blbl{font-size:10.5px;letter-spacing:.14em;font-weight:700;color:var(--acc-deep);display:flex;align-items:center;gap:9px}
 .blbl::after{content:'';flex:1;height:1px;background:var(--line)}
 .blk p{font-size:15px;line-height:1.95}
+.four{display:flex;flex-direction:column;gap:11px}
+.four li{display:flex;gap:12px;align-items:baseline;font-size:15px;line-height:1.75}
+.four b{flex:none;min-width:7.5em;font-weight:700}
+.four span{color:var(--mfg);font-size:14px}
+@media (max-width:560px){
+  .four li{flex-direction:column;gap:2px}
+  .four b{min-width:0}
+}
 .rsub{background:var(--secondary);border-radius:var(--r);padding:16px 17px;font-size:14.5px;line-height:1.9}
 .course{border-left:2px solid var(--accent);padding-left:16px;display:flex;flex-direction:column;gap:11px}
 .course p{font-size:15px;line-height:1.95}
@@ -397,12 +406,12 @@ body.quizmode footer{display:none}
   <div class="wrap">
     <p class="eyebrow">不是老師得獎，是學生得獎</p>
     <h2 class="sec-h">來上課的人，後來站上了國際賽的頒獎台</h2>
-    <p class="lede">BEAUTY STARS WORLD CUP 2025（ISO/IEC 17024:2012 認證賽事）膚色遮瑕相關組別，奶茶美肌學員拿下 1 王者亞軍、1 金、2 銀。</p>
+    <p class="lede">BEAUTY STARS WORLD CUP 2025（ISO/IEC 17024:2012 認證賽事）膚色遮瑕相關組別，奶茶美肌學員拿下全場王者亞軍，以及 2 金、2 銀。</p>
     <div class="aw-grid">
-      <article class="aw"><div class="aw-img"><span class="medal m-k">王者亞軍</span><img src="images/award-2.webp" alt="奶茶美肌學員 陳同學 王者亞軍" loading="lazy" width="900" height="1125"></div><div class="aw-b"><span class="nm">陳同學</span><span class="cat">膚色重建（疤痕類）</span><span class="tg">奶茶美肌學員</span></div></article>
-      <article class="aw"><div class="aw-img"><span class="medal m-g">金獎 GOLD</span><img src="images/award-1.webp" alt="奶茶美肌學員 王同學 金獎" loading="lazy" width="900" height="1125"></div><div class="aw-b"><span class="nm">王同學</span><span class="cat">肌膚色素還原（黑眼圈）</span><span class="tg">奶茶美肌學員</span></div></article>
-      <article class="aw"><div class="aw-img"><span class="medal m-s">銀獎 SILVER</span><img src="images/award-3.webp" alt="奶茶美肌學員 金同學 銀獎" loading="lazy" width="900" height="1125"></div><div class="aw-b"><span class="nm">金同學</span><span class="cat">肌膚色素還原（疤痕類）</span><span class="tg">奶茶美肌學員</span></div></article>
-      <article class="aw"><div class="aw-img"><span class="medal m-s">銀獎 SILVER</span><img src="images/award-4.webp" alt="奶茶美肌學員 林同學 銀獎" loading="lazy" width="900" height="1125"></div><div class="aw-b"><span class="nm">林同學</span><span class="cat">肌膚色素還原（黑眼圈）</span><span class="tg">奶茶美肌學員</span></div></article>
+      <article class="aw"><div class="aw-img"><span class="medals"><span class="medal m-k">王者亞軍</span><span class="medal m-g">金獎 GOLD</span></span><img src="images/award-2.webp" alt="奶茶美肌學員 陳同學 王者亞軍暨金獎" loading="lazy" width="900" height="1125"></div><div class="aw-b"><span class="nm">陳同學</span><span class="cat">膚色重建（疤痕類）</span><span class="tg">奶茶美肌學員</span></div></article>
+      <article class="aw"><div class="aw-img"><span class="medals"><span class="medal m-g">金獎 GOLD</span></span><img src="images/award-1.webp" alt="奶茶美肌學員 王同學 金獎" loading="lazy" width="900" height="1125"></div><div class="aw-b"><span class="nm">王同學</span><span class="cat">肌膚色素還原（黑眼圈）</span><span class="tg">奶茶美肌學員</span></div></article>
+      <article class="aw"><div class="aw-img"><span class="medals"><span class="medal m-s">銀獎 SILVER</span></span><img src="images/award-3.webp" alt="奶茶美肌學員 金同學 銀獎" loading="lazy" width="900" height="1125"></div><div class="aw-b"><span class="nm">金同學</span><span class="cat">肌膚色素還原（疤痕類）</span><span class="tg">奶茶美肌學員</span></div></article>
+      <article class="aw"><div class="aw-img"><span class="medals"><span class="medal m-s">銀獎 SILVER</span></span><img src="images/award-4.webp" alt="奶茶美肌學員 林同學 銀獎" loading="lazy" width="900" height="1125"></div><div class="aw-b"><span class="nm">林同學</span><span class="cat">肌膚色素還原（黑眼圈）</span><span class="tg">奶茶美肌學員</span></div></article>
     </div>
   </div>
 </section>
@@ -550,9 +559,13 @@ var T = {
   look:'你會比別人更早開始想「一天能排幾個」「怎麼讓流程更順」。往後最有機會走向工作室、帶學徒，或多點經營。',
   care:'你的風險是太早想做大。系統化的前提是那件事本身已經被驗證過。第一年的重點應該是把單一操作做穩、把成本算清楚，而不是急著擴張。順序顛倒過來，很容易做出一個規模很大但不賺錢的東西。'},
  5:{n:'什麼都想試試型',tag:'四個方向現在都還開著',
+  four:[['慢工出細活','把難的案子做到自己滿意，比做得快更重要'],
+        ['客人捨不得換','客人一直回頭找你，靠的不只是技術，是關係'],
+        ['好東西藏不住','做完會想讓人看到，作品自己會帶客人來'],
+        ['越做越想開店','想的是下一步、怎麼重複、怎麼把規模放大']],
   fear:'你的答案沒有明顯偏向任何一邊——這在還沒實際做過的人身上非常正常，而且不是壞事。前面四種類型描述的是「已經知道自己怎麼運作的人」，你現在的狀態是「還沒有資料」。硬給你一個標籤，反而會限制你。',
   adv:'你沒有既定包袱。很多人一開始就認定「我只能走某一條路」，反而錯過更適合自己的方式。',
-  look:'前三個月刻意各試一點：接一個難的案子、經營一個回頭客、發一篇紀錄、認真算一次成本。四件事各做一次，你的傾向會自己浮出來——那比任何測驗都準。',
+  look:'前三個月刻意各試一點，四件事剛好對應上面四型：接一個難的案子（慢工出細活）、經營一個回頭客（客人捨不得換）、發一篇紀錄（好東西藏不住）、認真算一次成本（越做越想開店）。各做一次，你的傾向會自己浮出來——那比任何測驗都準。',
   care:'你的風險是一直在試但沒有累積。探索期需要有期限。給自己三個月，時間到了選一個方向深入，而不是繼續四邊都碰。'}
 };
 var SUB = {
@@ -687,9 +700,16 @@ function result(){
     p:'你現在知道自己是哪一型了。但「這一型的人前 90 天該做什麼、不該做什麼」，還有「以你能排出的時間，實際能做到什麼收入」——這兩件事沒辦法用一頁講完，要看你的實際狀況算。顧問會在一通視訊裡直接跟你走過這兩件事。',
     b:'補完最後幾題，預約顧問時間 →', n:'你剛才的答案已經幫你填好一半了。', u:CFG.BOOKING_URL_A
   };
+  // 測到⑤的人已經看完四型的題目、但沒被歸到任何一型，很容易忘記那四型是什麼。
+  // 只有⑤會出現這個速查，其他型不需要。
+  var fourHtml = t.four ? '<div class="blk"><span class="blbl">那四型分別是</span><ul class="four">'
+    + t.four.map(function(f){ return '<li><b>' + f[0] + '</b><span>' + f[1] + '</span></li>'; }).join('')
+    + '</ul></div>' : '';
+
   quiz.innerHTML='<div class="res">'+
     '<div><p class="eyebrow">你的測驗結果</p><h1 class="rtype">'+t.n+'</h1><p class="rtag">'+t.tag+'</p></div>'+
     '<div class="blk"><p>'+t.fear+'</p></div>'+
+    fourHtml+
     '<div class="blk"><span class="blbl">你的優勢</span><p>'+t.adv+'</p></div>'+
     '<div class="blk"><span class="blbl">'+(r.main===5?'建議這樣做':'這一型的樣子')+'</span><p>'+t.look+'</p></div>'+
     '<div class="blk"><span class="blbl">要小心</span><p>'+t.care+'</p></div>'+
