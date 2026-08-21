@@ -761,7 +761,10 @@ footer{border-top:1px solid var(--line);padding:24px 0;margin-top:20px}
   }
   // Catmull-Rom → 三次貝茲，控制點夾在繪圖區內，避免平滑造成負值溢出
   function smooth(pts, top, bottom){
-    if (pts.length < 2) return '';
+    if (!pts.length) return '';
+    // 單點要回傳合法的退化路徑。回空字串的話，呼叫端接上「L…Z」會組出
+    // 少了開頭 M 的非法 path，瀏覽器直接噴 "Expected moveto path command"
+    if (pts.length < 2) return 'M' + pts[0][0] + ',' + pts[0][1];
     function cy(v){ return Math.max(top, Math.min(bottom, v)); }
     var d = 'M' + pts[0][0] + ',' + pts[0][1];
     for (var i=0;i<pts.length-1;i++){
@@ -815,12 +818,12 @@ footer{border-top:1px solid var(--line);padding:24px 0;margin-top:20px}
       // 兼職期間才有薪水。把它畫成疊在利潤線上方的一層帶子，
       // 辭職那一刻帶子消失——「你交出去的是這一塊」比多畫一條線好讀。
       var pt = rows.filter(function(d){ return d.salary > 0; });
-      if (pt.length){
+      // 只有 1 個月落在兼職期時，帶子是零面積的一條線，畫了也看不到——直接略過
+      if (pt.length >= 2){
         var lo = pt.map(function(d){ return [x(d.m - 1), y(d.profit)]; });
         var hi = pt.map(function(d){ return [x(d.m - 1), y(d.total)]; });
-        var loP = smooth(lo, top, bottom), hiP = smooth(hi, top, bottom);
+        var hiP = smooth(hi, top, bottom);
         // 上緣往右走、再沿下緣往左走回來，圍成一個帶狀
-        var back = hi.slice().reverse();
         g.push('<path class="c-sal" d="' + hiP
              + 'L' + lo[lo.length-1][0] + ',' + lo[lo.length-1][1]
              + smooth(lo.slice().reverse(), top, bottom).replace(/^M[^C]*/, '')
