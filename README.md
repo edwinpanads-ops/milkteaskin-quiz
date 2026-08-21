@@ -29,11 +29,18 @@
 打開 `index.html`，最上面有一段 `window.CONFIG`，只要改這裡：
 
 ```js
-BOOKING_URL_A : "https://..."   // 沒填過申請表的人 → 導去申請表／預約頁
-BOOKING_URL_B : "https://..."   // 填過但沒預約的人 → 導去直接選時段的頁面
-WEBHOOK_URL   : ""              // 選填，結果 POST 到這裡給 Setter 看
-LIFF_ID       : ""              // 選填，填了會一起送出 LINE userId
+BOOKING_URL_A : "https://liff.line.me/2008869736-IyDsEMo6"        // 沒填過 → LIFF 讀 LINE uid → 申請表
+BOOKING_URL_B : "https://app.simplymeet.me/o/skincover/1on1-45m"  // 填過沒預約 → SimplyMeet 直接選時段
+WEBHOOK_URL   : ""                                                // 選填，結果 POST 到這裡給 Setter 看
+LIFF_ID       : ""                                                // 見下方「LIFF_ID 不要填這個 LIFF」
 ```
+
+> **兩個網址已經接上（2026-08-21）**，實測結果頁確認：
+> 選「沒有／不太記得了」→ LIFF；選「有，但還沒約到時間」→ SimplyMeet。
+>
+> **`LIFF_ID` 不要填 `2008869736-IyDsEMo6`。** 那個 LIFF app 的 endpoint 註冊的是申請表，
+> 不是這個測驗頁；而且這頁根本沒有載入 LIFF SDK（`window.liff` 是 undefined），
+> 填了也不會執行。要讓測驗頁自己抓 uid，得另外開一個 LIFF app 指向這頁、並加上 SDK。
 
 **2. 上傳 GitHub**
 
